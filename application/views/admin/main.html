@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>后台管理系统</title>
+<link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
+<script type="text/javascript" src="../../public/js/jquery.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.uniform.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.flot.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="../../public/js/custom/main.js"></script>
+<script type="text/javascript" src="../../public/js/custom/tables.js"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../public/js/plugins/excanvas.min.js"></script><![endif]-->
+<!--[if IE 9]>
+    <link rel="stylesheet" media="screen" href="../../public/css/style.ie9.css"/>
+<![endif]-->
+<!--[if IE 8]>
+    <link rel="stylesheet" media="screen" href="../../public/css/style.ie8.css"/>
+<![endif]-->
+<!--[if lt IE 9]>
+	<script src="../../public/js/plugins/css3-mediaqueries.js"></script>
+<![endif]-->
+
+<style>
+html { overflow-x: hidden; overflow-y: auto; }
+</style>
+</head>
+
+<body class="withvernav">
+<div class="bodywrapper">
+   <div class="topheader" id="topheaderid">
+        <div class="left">
+            <h1 class="logo">Ama.<span style="font-size:26px;"><?php echo $this->session->userdata('username');?></span></h1>
+            <span class="slogan">后台管理系统</span>
+
+            <div class="search">
+            	<form action="" method="post">
+                	<input type="text" name="keyword" id="keyword" value="请输入" />
+                    <button class="submitbutton"></button>
+                </form>
+            </div><!--search-->
+            
+            <br clear="all" />
+            
+        </div><!--left-->
+        
+        <div class="right">
+        	<!--<div class="notification">
+                <a class="count" href="ajax/notifications"><span>9</span></a>
+        	</div>-->
+            <div class="userinfo">
+            	<img src="../../public/images/thumbs/avatar.png" alt="" />
+                <span><?php echo $this->session->userdata('username');?></span>
+            </div><!--userinfo-->
+            
+            <div class="userinfodrop">
+            	<div class="avatar">
+                	<a href=""><img src="../../public/images/thumbs/avatarbig.png" alt="" /></a>
+                    <div class="changetheme">
+                    	切换主题: <br />
+                    	<a class="default"></a>
+                        <a class="blueline"></a>
+                        <a class="greenline"></a>
+                        <a class="contrast"></a>
+                        <a class="custombg"></a>
+                    </div>
+                </div><!--avatar-->
+                <div class="userdata">
+                	<h4><?php echo $this->session->userdata('username');?></h4>
+                    <span class="email">youremail@yourdomain.com</span>
+                    <ul>
+                    	<li><a data_url="editprofile" class="show" >编辑资料</a></li>
+                        <li><a data_url="accountsettings" class="show" >账号设置</a></li>
+                        <li><a data_url="help" class="show" >帮助</a></li>
+                        <li><a href="Loginout">退出</a></li>
+                    </ul>
+                </div><!--userdata-->
+            </div><!--userinfodrop-->
+        </div><!--right-->
+    </div><!--topheader-->
+
+
+
+    <div class="header" >
+    	<ul class="headermenu">
+        	<li class="current"><a href="/admin/login/main"><span class="icon icon-flatscreen"></span>首页</a></li>
+       <!--     <li><a href="manageblog"><span class="icon icon-pencil"></span>博客管理</a></li>
+            <li><a href="messages"><span class="icon icon-message"></span>查看消息</a></li>
+            <li><a href="reports"><span class="icon icon-chart"></span>统计报表</a></li>
+       --> </ul>
+        
+       <div class="headerwidget">
+        	<div class="earnings">
+            	<div class="one_half">
+                	<h4>Today's Earnings</h4>
+                    <h2>$640.01</h2>
+                </div><!--one_half-->
+                <div class="one_half last alignright">
+                	<h4>Current Rate</h4>
+                    <h2>53%</h2>
+                </div><!--one_half last-->
+            </div><!--earnings-->
+        </div><!--headerwidget-->
+        
+    </div><!--header-->
+
+   
+    <div class="vernav2 iconmenu">
+    	<ul>
+        	<li><a href="#formsub"  href="javascript:void(0);"  class="editor">会员管理</a>
+            	<span class="arrow"></span>
+            	<ul id="formsub">
+                    <li><a data_url="wizard" class="/admin/Members"  href="javascript:void(0);" >会员列表</a></li>
+                    <li><a data_url="editor" class="/admin/delMembers"  href="javascript:void(0);" >回收站</a></li>
+                </ul>
+            </li>
+
+
+        	<li><a href="#comment" class="editor">评论管理</a>
+            	<span class="arrow"></span>
+            	<ul id="comment" class="show">
+               		<li><a data_url="forms" class="show"  href="javascript:void(0);" >评论列表</a></li>
+                    <li><a data_url="wizard" class="show"  href="javascript:void(0);" >待审和列表</a></li>
+                    <li><a data_url="editor" class="show"  href="javascript:void(0);" >回收站</a></li>
+                </ul>
+            </li>
+            <li><a href="#views" class="addons">视频管理</a>
+            	<span class="arrow"></span>
+            	<ul id="views">
+               		<li><a data_url="/admin/Content" class="show"  href="javascript:void(0);" >视频列表</a></li>
+                    <li><a data_url="/admin/Content/AddContent" class="show"  href="javascript:void(0);" >添加视频</a></li>
+                    <li><a data_url="/admin/Content/trashContent" class="show"  href="javascript:void(0);" >回收站</a></li>
+                </ul>
+            </li>
+
+
+            <li><a href="#addons" class="addons">其他页面</a>
+            	<span class="arrow"></span>
+            	<ul id="addons" class="show">
+               		<li><a data_url="newsfeed" class="show"  href="javascript:void(0);" >新闻订阅</a></li>
+                    <li><a data_url="profile" class="show"  href="javascript:void(0);" >资料页面</a></li>
+                    <li><a data_url="productlist" class="show"  href="javascript:void(0);" >产品列表</a></li>
+                    <li><a data_url="photo" class="show"  href="javascript:void(0);" >图片视频分享</a></li>
+                    <li><a data_url="gallery" class="show"  href="javascript:void(0);" >相册</a></li>
+                    <li><a data_url="invoice" class="show"  href="javascript:void(0);" >购物车</a></li>
+                </ul>
+            </li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->
+
+    <div class="centercontent" >
+    
+      <iframe class="centeriframe" src="/admin/login/dashboard"  frameborder="0"    marginheight="0" marginwidth="0" style="overflow-x:hidden"></iframe>    
+    </div><!-- centercontent -->
+    
+    
+</div><!--bodywrapper-->
+<script>
+        
+    function reposSearch() {
+        $(".centeriframe").outerHeight($(window).height()-$('.topheader').outerHeight()-$('.header').outerHeight());
+        $(".centeriframe").outerWidth($(window).width()-$('.vernav2').outerWidth());
+    }
+
+    ///// ON RESIZE WINDOW /////
+    window.onresize = reposSearch();
+    $(window).resize();
+
+
+   	if(window.Event)
+   	{
+		document.captureEvents(Event.MOUSEUP);
+   	}
+
+  	function nocontextmenu()
+   	{
+        	event.cancelBubble = true;
+		event.returnValue  = false;
+		return false;
+   	}
+
+   	function norightclick(e)
+   	{
+		if(window.Event)
+		{
+			if(e.which == 2 || e.which == 3)
+			{
+				return false;
+			}
+		}else if(event.button == 2 || event.button ==3)
+		{
+			event.cancelBubble = true;
+			event.returnValue  = false;
+			return false;
+		}
+   	}
+
+   	document.oncontextmenu  = nocontextmenu;
+   	document.onmousedown = norightclick;
+
+</script>
+
+</body>
+</html>

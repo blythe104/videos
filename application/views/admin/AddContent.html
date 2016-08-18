@@ -1,0 +1,285 @@
+<link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
+<link rel="stylesheet" href="../../public/js/cropper/cropper-master/dist/cropper.css">
+<script type="text/javascript" charset="utf-8" src="../../public/js/custom/elements.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../public/Ueditor/ueditor.config.js"></script> 
+<script type="text/javascript" charset="utf-8" src="../../public/Ueditor/editor_api.js"> </script>
+<script type="text/javascript" charset="utf-8" src="../../public/js/jquery.min.js"></script>
+<div class="pageheader notab">
+    <h1 class="pagetitle">添加内容信息</h1>
+    <span class="pagedesc"></span>
+</div><!--pageheader-->
+<div id="contentwrapper" class="contentwrapper elements">
+    <form class="stdform stdform2" >
+        <p>
+            <label>视频名称 <span class="star">*</span></label>
+            <span class="field">
+                <input type="text" name="title" class="width100"  />
+            </span><!--field-->
+        </p>
+        <p>
+            <label>所属导演</label>
+            <span class="field">
+                <input type="text" name="director" class="width100"  />
+            </span><!--field-->
+        </p>
+        <p>
+            <label>演员信息</label>
+            <span class="field">
+                <input type="text" name="actors" class="smallinput"  />
+                <span class="star">（多个演员请用中文逗号隔开 例如"张翰，古力娜扎"）</span>
+            </span><!--field-->
+        </p>
+        <p class="flatmode">
+            <label>视频源<span class="star">*</span></label>
+            <span class="field">
+                <iframe src="/api/common/uploadVideoHtml" scrolling="no" width="500" height="40" id="uploadvideosHtml"></iframe>
+                <input type="text" name="v_path" class="smallinput"  value="" style="display: none" readonly/>
+            </span>
+        </p>
+        <p>
+            <label>适合年龄阶段</label>
+            <span class="field">
+                <select name="proper_age" class="personalStyle">
+                    <option>--请选择适合等级--</option>
+                    <?php foreach($AppropriateAge as $key => $value):?>
+                        <option><?php echo $key;?></option>
+                    <?php endforeach;?>
+                </select>
+                <span class="star tips"></span>
+            </span><!--field-->
+        </p>
+        <p class="flatmode">
+            <label>封面图片<span class="star">*</span></label>
+                <span class="field" id="images">
+                    <a href="javascript:void(0);" class="btn btn_orange btn_link"><span>浏览图片</span></a>
+                </span>
+                <input type="hidden" name="cover_path" class="width100" id="colorpicker3" value=""/>
+        </p>
+        <p>
+            <label>显示位置</label>
+            <span class="field">
+                <?php foreach($Whereis as $key => $vlaue):?>
+                    <input type="radio" name="whereis" style="margin-left: 10px;"  value="<?php echo $key;?>"/> <?php echo $vlaue;?>
+                <?php endforeach;?>
+            </span><!--field-->
+        </p>
+        <p>
+            <label>视频介绍<span class="star">*</span></label>
+            <span class="field">
+                <textarea type="text" name="summary"  id="colorpicker2" class="mediuminput"/>
+        </textarea>    </span><!--field-->
+        </p>
+        <p>
+            <label>是否热推</label>
+            <span class="field">
+                <input type="radio" name="is_hot" style="margin-left: 20px;"  value="0" checked/> 否
+                <input type="radio" name="is_hot" style="margin-left: 10px;"  value="1"/> 是
+            </span><!--field-->
+        </p>
+        <!--<p>
+            <label>外部链接</label>
+            <span class="field">
+                <input  type="text"  class="smallinput"  name="v_path"/>
+            </span>
+        </p>-->
+        <p>
+            <label>排序ID</label>
+            <span class="field">
+                <input  type="text"  class="width50"  name="sort" value="0"/>
+                <span class="star">（数字越大越靠前）</span>
+            </span>
+
+        </p>
+        <p>
+            <label></label>
+            <span class="field">
+                <button class="stdbtn btn_blue">Form Button</button>
+            </span>
+        </p>
+    </form>
+    <br />
+</div><!--contentwrapper-->
+
+<!--弹出层-->
+<div id="light" class="white_content">
+    <div class="close">
+        <a href="javascript:void(0)" class="closed"
+           style="-webkit-appearance: none;padding: 0;cursor: pointer;background: transparent;font-size:20px;border: 0;">
+            ×
+        </a>
+    </div>
+    <div class="con">
+    </div>
+    <div class="close">
+        <a href="javascript:void(0)" class="closed"
+           style="-webkit-appearance: none;padding: 0;cursor: pointer;background: transparent;font-size:20px;border: 0;">
+            &nbsp;
+        </a>
+    </div>
+</div>
+<div id="fade" class="black_overlay">
+</div>
+<!-- 弹出层 -->
+
+
+<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('colorpicker2',{
+            initialFrameWidth : 900,
+            initialFrameHeight: 500
+        });
+</script>
+
+
+<script type="text/javascript">
+
+    /** 点击链接关闭弹出层 **/
+    $('.closed').click(function(){
+        $('.white_content').hide();
+        $('.black_overlay').hide();
+    });
+
+    /** 点击链接出现弹出层 **/
+    $(".btn_link").click(function() {
+        var timestamp = new Date().getTime();
+        var str = '<iframe src="/api/common/uploadFile?v=' + timestamp
+                    + '" width="92%" height="68%" id="iframepage" '
+                    + 'frameborder="0" scrolling="no" marginheight="0" '
+                    + 'marginwidth="0"  >'
+                    + '</iframe>';
+
+        $('.con').html(str);
+        $('.black_overlay').show();
+        $('.white_content').show();
+    });
+
+    /** 填充内容信息 **/
+    function SendContent(con)
+    {
+        $('.con').html(con);
+        $('.black_overlay').show();
+        $('.white_content').show();
+    }
+
+    /** 获取封面图片路径信息 **/
+    $('body').on('click','#changebig',function(){
+        var images_path  = $("input:hidden[name='cover_path']").val();
+        var con = '<img src="/'+images_path+'" class="blogviewthumb"/>';
+        SendContent(con);
+    });
+
+    /**  获取上传图片返回信息并保存起来 **/
+    function cutback(result) {
+        if(result)
+        {
+            $('.white_content').hide();
+            $('.black_overlay').hide();
+            $('#images').html('<a href="javascript:void(0);" id="changebig" title="点击查看大图">'
+            + '<img src="/'+result+'" width="80" height="80"  '
+            + 'class="blogviewthumb"/></a>');
+            $("input:hidden[name='cover_path']").val(result);
+        }
+    }
+
+    /** 上传视频返回结果保存起来 **/
+    function uploadBack(result)
+    {
+        if(result)
+        {
+            $('#uploadvideosHtml').remove();
+            $('input[name="v_path"]').show();
+            alert('上传成功！');
+            window.setTimeout(function(){
+                $('input[name="v_path"]').val(result);
+            },500);
+
+        }
+    }
+
+
+    /** 适合年龄段切换时提示信息改变 **/
+    $('.personalStyle').change(function(){
+        var ProperAges = "";
+        var ProperAge = $(this).val();
+        getProperAge(function(data){
+            ProperAges = data;
+            if(ProperAges[ProperAge])
+            {
+                $('.tips').html("("+ProperAges[ProperAge]+")");
+            }else{
+                $('.tips').html("");
+            }
+        })
+    });
+
+    /** js缓存信息(适合年龄段配置信息缓存) **/
+    function getProperAge(callback){
+        var stroage = window.localStorage;
+        var cacheTime = stroage.getItem("ProperAgeTime");
+        var nowTime = Math.floor(Date.now()/1000);
+        if(!stroage.getItem("ProperAge")) {
+            stroage.removeItem("ProperAgeTime");
+            cacheTime = 0;
+        }
+        if(!cacheTime || nowTime - cacheTime > 86400) {
+            $.post("/api/common/ProperAge", {}, function(res){
+                stroage.setItem("ProperAge", JSON.stringify(res.ProperAge));
+                stroage.setItem("ProperAgeTime", nowTime);
+                callback(res.ProperAge)
+            });
+        } else {
+            callback(JSON.parse(stroage.getItem("ProperAge")));
+        }
+    }
+
+	/**   添加视频信息数据，验证数据是否正确 **/
+    $("form").submit(function(){
+        //视频名称
+        var title  = $('input[name="title"]').val();
+        if(title == "")
+        {
+            alert('视频名称不能为空');
+            return false;
+        }
+
+        //视频路径信息
+        var videos  = $('input[name="v_path"]').val();
+        if(videos == "")
+        {
+            alert('请上传视频信息');
+            return false;
+        }
+
+        //视频封面图片信息
+        var images = $('input[name="cover_path"]').val();
+        if(images == "")
+        {
+            alert('请上传图片！');
+            return false;
+        }
+
+        //视频简介
+        var summary =  $('textarea[name="summary"]').val();
+        if(summary == "")
+        {
+            alert('展示你才艺的时候到了，多写一点咯！');
+            return false;
+        }
+
+        //提交信息
+         $.post("/admin/content/addcontent",$('form').serialize(),function(msg){
+             console.log(msg);
+             if(msg.status){
+                 alert(msg.msg);
+                 window.setTimeout(function(){
+                     window.location.href="/admin/content/Addcontent";
+                 },500);
+             }else{
+                 alert(msg.msg);
+                 alert('走错地方了');
+                 return false;
+             }
+         });
+    });
+</script>

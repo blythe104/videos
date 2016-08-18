@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+<link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
+</head>
+<body>
+<form action="/api/common/uploadVideos"  enctype="multipart/form-data" method="post">
+    <a  class="btn btn_blue btn_book" style="height: 30px;"><span>选中视频</span>
+        <input type="file" name="videos"  style="height: 30px; width: 100px; margin-top: -30px;" id="hidden">
+    </a>
+    <input type="submit" class="stdbtn btn_orange" style="float: right;margin-right: 260px;" value="上传"/>
+</form>
+<script src="../../public/js/jquery.min.js"></script>
+<script>
+    $("form").submit(function(){
+        var file = $("input:file[name='videos']").val();
+        if(file == ''){
+            alert('请选择文件！');
+            return false;
+        }else{
+            $(this).submit();
+        }
+    });
+</script>
+</body>
+</html>

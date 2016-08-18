@@ -1,0 +1,358 @@
+<div class="main">
+		<div class="single-content">
+			<div class="top-header span_top">
+				<div class="logo">
+					<a href="index.html"><img src="public/images/logo.png" alt="" /></a>
+					<p>Movie Theater</p>
+				</div>
+				<div class="search v-search">
+					<form>
+						<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}"/>
+						<input type="submit" value="">
+					</form>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="reviews-section">
+				<h3 class="head">Movie Reviews</h3>
+					<div class="col-md-9 reviews-grids">
+                        <?php foreach($content as $key => $value):?>
+						<div class="review">
+							<div class="movie-pic">
+								<a href="single?id=<?php echo $value['id'];?>"><img src="<?php echo $value['cover_path'];?>" alt="" /></a>
+							</div>
+							<div class="review-info">
+								<a class="span" href="single?id=<?php echo $value['id'];?>"><?php echo $value['title'];?>  <i>Just you like</i></a>
+								<p class="dirctr"><a href=""><?php echo $value['director'];?></a></p>
+								<p class="ratingview">Critic's Rating:</p>
+								<div class="rating">
+									<span>☆</span>
+									<span>☆</span>
+									<span>☆</span>
+									<span>☆</span>
+									<span>☆</span>
+								</div>
+								<p class="ratingview">
+								&nbsp;3.5/5
+								</p>
+								<div class="clearfix"></div>
+								<p class="ratingview c-rating">Avg Readers' Rating:</p>
+								<div class="rating c-rating">
+									<span>☆</span>
+									<span>☆</span>
+									<span>☆</span>
+									<span>☆</span>
+									<span>☆</span>
+								</div>
+								<p class="ratingview c-rating">
+								&nbsp; 3.3/5</p>
+								<div class="clearfix"></div>
+								<div class="yrw">
+									<div class="dropdown-button">
+										<select class="dropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
+										<option value="0">Your rating</option>
+										<option value="1">1.Poor</option>
+										<option value="2">1.5(Below average)</option>
+										<option value="3">2.Average</option>
+										<option value="4">2.5(Above average)</option>
+										<option value="5">3.Watchable</option>
+										<option value="6">3.5(Good)</option>
+										<option value="7">4.5(Very good)</option>
+										<option value="8">5.Outstanding</option>
+									  </select>
+									</div>
+									<div class="rtm text-center">
+										<a href="#">WATCH THIS VIDEOS</a>
+									</div>
+									<div class="wt text-center">
+										<a href="#">DOWNLOAD THIS VIDEO</a>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<p class="info">CAST:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['actors'];?></p>
+								<p class="info">DIRECTION: &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['director'];?></p>
+								<p class="info">GENRE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crime</p>
+								<p class="info">UPLOAD DATE:&nbsp;&nbsp;&nbsp; &nbsp;<?php echo date("Y-m-d H:i:s",$value['create_time']);?> </p>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						<div class="single">
+							<h3>Lorem Ipsum IS A TENSE, TAUT, COMPELLING THRILLER</h3>
+							<p>STORY:<i> <?php echo $value['summary'];?></i></p>
+						</div>
+							<div class="best-review">
+								<h4>Best Reader's Review</h4>
+								<p>Excellent Movie and great performance by Lorem, one of the finest thriller of recent  like Aldus PageMaker including versions of Lorem Ipsum.</p>
+								<p><span>Neeraj Upadhyay (Noida)</span> 16/03/2015 at 12:14 PM</p>
+							</div>
+							<div class="story-review">
+								<h4>REVIEW:</h4>
+								<p>So,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+							</div>
+                        <?php endforeach;?>
+							<!-- comments-section-starts -->
+	    <div class="comments-section">
+	        <div class="comments-section-head">
+				<div class="comments-section-head-text">
+					<h3>25 Comments</h3>
+				</div>
+				<div class="clearfix"></div>
+		    </div>
+			<div class="comments-section-grids">
+				<div class="comments-section-grid">
+					<div class="col-md-2 comments-section-grid-image">
+						<img src="public/images/eye-brow.jpg" class="img-responsive" alt="" />
+					</div>
+					<div class="col-md-10 comments-section-grid-text">
+						<h4><a href="#">MARWA ELGENDY</a></h4>
+						<label>5/4/2014 at 22:00   </label>
+						<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
+						<span><a href="#">Reply</a></span>
+						<i class="rply-arrow"></i>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="comments-section-grid comments-section-middle-grid">
+					<div class="col-md-2 comments-section-grid-image">
+						<img src="public/images/beauty.jpg" class="img-responsive" alt="" />
+					</div>
+					<div class="col-md-10 comments-section-grid-text">
+						<h4><a href="#">MARWA ELGENDY</a></h4>
+						<label>5/4/2014 at 22:00   </label>
+						<p>But I must explain to you how all this idea denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
+						<span><a href="#">Reply</a></span>
+						<i class="rply-arrow"></i>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="comments-section-grid">
+					<div class="col-md-2 comments-section-grid-image">
+						<img src="public/images/stylish.jpg" class="img-responsive" alt="" />
+					</div>
+					<div class="col-md-10 comments-section-grid-text">
+						<h4><a href="#">MARWA ELGENDY</a></h4>
+						<label>5/4/2014 at 22:00   </label>
+						<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
+						<span><a href="#">Reply</a></span>
+						<i class="rply-arrow"></i>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+	    </div>
+	  <!-- comments-section-ends -->
+		  <div class="reply-section">
+			  <div class="reply-section-head">
+				  <div class="reply-section-head-text">
+					  <h3>Leave Reply</h3>
+				  </div>
+			  </div>
+			<div class="blog-form">
+			    <form>
+					<input type="text" class="text" value="Enter Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}">
+					<input type="text" class="text" value="Enter Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}">
+					<input type="text" class="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}">
+					<textarea></textarea>
+					<input type="button" value="SUBMIT COMMENT">
+			    </form>
+			 </div>
+		  </div>
+		  </div>
+					<div class="col-md-3 side-bar">
+						<div class="featured">
+							<h3>Featured Today in Movie Reviews</h3>
+							<ul>
+								<li>
+									<a href="single"><img src="public/images/f1.jpg" alt="" /></a>
+									<p>lorem movie review</p>
+								</li>
+								<li>
+									<a href="single"><img src="public/images/f2.jpg" alt="" /></a>
+									<p>lorem movie review</p>
+								</li>
+								<li>
+									<a href="single"><img src="public/images/f3.jpg" alt="" /></a>
+									<p>lorem movie review</p>
+								</li>
+								<li>
+									<a href="single"><img src="public/images/f4.jpg" alt="" /></a>
+									<p>lorem movie review</p>
+								</li>
+								<li>
+									<a href="single"><img src="public/images/f5.jpg" alt="" /></a>
+									<p>lorem movie review</p>
+								</li>
+								<li>
+									<a href="single"><img src="public/images/f6.jpg" alt="" /></a>
+									<p>lorem movie review</p>
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+						</div>
+
+						<div class="entertainment">
+							<h3>Featured Today in Entertainment</h3>
+							<ul>
+								<li class="ent">
+									<a href="single"><img src="public/images/f6.jpg" alt="" /></a>
+								</li>
+								<li>
+									<a href="single">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+							<ul>
+								<li class="ent">
+									<a href="single"><img src="public/images/f5.jpg" alt="" /></a>
+								</li>
+									<li>
+									<a href="single">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+							<ul>
+								<li class="ent">
+									<a href="single"><img src="public/images/f3.jpg" alt="" /></a>
+								</li>
+								<li>
+									<a href="single">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+							<ul>
+								<li class="ent">
+									<a href="single"><img src="public/images/f4.jpg" alt="" /></a>
+								</li>
+								<li>
+									<a href="single">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+							<ul>
+								<li class="ent">
+									<a href="single"><img src="public/images/f2.jpg" alt="" /></a>
+								</li>
+								<li>
+									<a href="single">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+							<ul>
+								<li class="ent">
+									<a href="single"><img src="public/images/f1.jpg" alt="" /></a>
+								</li>
+								<li>
+									<a href="single">Watch ‘Bombay Velvet’ trailer during WC match</a>
+
+								</li>
+								<div class="clearfix"></div>
+							</ul>
+						</div>
+						<div class="might">
+				<h4>You might also like</h4>
+				<div class="might-grid">
+					<div class="grid-might">
+						<a href="single"><img src="public/images/mi.jpg" class="img-responsive" alt=""> </a>
+					</div>
+					<div class="might-top">
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+						<a href="single">Lorem Ipsum <i> </i></a>
+					</div>
+				<div class="clearfix"></div>
+				</div>
+				<div class="might-grid">
+					<div class="grid-might">
+						<a href="single"><img src="public/images/mi1.jpg" class="img-responsive" alt=""> </a>
+					</div>
+					<div class="might-top">
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+						<a href="single">Lorem Ipsum <i> </i></a>
+					</div>
+				<div class="clearfix"></div>
+				</div>
+				<div class="might-grid">
+					<div class="grid-might">
+						<a href="single"><img src="public/images/mi2.jpg" class="img-responsive" alt=""> </a>
+					</div>
+					<div class="might-top">
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+						<a href="single">Lorem Ipsum <i> </i></a>
+					</div>
+				<div class="clearfix"></div>
+				</div>
+				<div class="might-grid">
+					<div class="grid-might">
+						<a href="single"><img src="public/images/mi3.jpg" class="img-responsive" alt=""> </a>
+					</div>
+					<div class="might-top">
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+						<a href="single">Lorem Ipsum <i> </i></a>
+					</div>
+				<div class="clearfix"></div>
+				</div>
+			</div>
+			<!---->
+				<div class="grid-top">
+				<h4>Archives</h4>
+				<ul>
+					<li><a href="single">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </a></li>
+					<li><a href="single">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</a></li>
+					<li><a href="single">When an unknown printer took a galley of type and scrambled it to make a type specimen book. </a> </li>
+					<li><a href="single">It has survived not only five centuries, but also the leap into electronic typesetting</a> </li>
+					<li><a href="single">Remaining essentially unchanged. It was popularised in the 1960s with the release of </a> </li>
+					<li><a href="single">Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing </a> </li>
+					<li><a href="single">Software like Aldus PageMaker including versionsof Lorem Ipsum.</a> </li>
+				</ul>
+				</div>
+				<!---->
+
+					</div>
+
+					<div class="clearfix"></div>
+			</div>
+			</div>
+		<div class="review-slider">
+			 <ul id="flexiselDemo1">
+			<li><img src="public/images/r1.jpg" alt=""/></li>
+			<li><img src="public/images/r2.jpg" alt=""/></li>
+			<li><img src="public/images/r3.jpg" alt=""/></li>
+			<li><img src="public/images/r4.jpg" alt=""/></li>
+			<li><img src="public/images/r5.jpg" alt=""/></li>
+			<li><img src="public/images/r6.jpg" alt=""/></li>
+		</ul>
+			<script type="text/javascript">
+		$(window).load(function() {
+			
+		  $("#flexiselDemo1").flexisel({
+				visibleItems: 6,
+				animationSpeed: 1000,
+				autoPlay: true,
+				autoPlaySpeed: 3000,    		
+				pauseOnHover: false,
+				enableResponsiveBreakpoints: true,
+				responsiveBreakpoints: { 
+					portrait: { 
+						changePoint:480,
+						visibleItems: 1
+					}, 
+					landscape: { 
+						changePoint:640,
+						visibleItems: 2
+					},
+					tablet: { 
+						changePoint:768,
+						visibleItems: 3
+					}
+				}
+			});
+			});
+		</script>
+		<script type="text/javascript" src="js/jquery.flexisel.js"></script>	
+		</div>		
+	<?php $this->load->view('footer.html');?>
+	
