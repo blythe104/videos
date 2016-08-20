@@ -8,12 +8,12 @@ class Members extends CI_Controller{
 
 	public function index()
 	{
-		$lists  = $this->membermodel->getmembers(); 
+		$lists  = $this->membermodel->getCommonMember();
 		$this->load->view('admin/Members.html',array("list"=>$lists));
 	}
-	
+
 	public function addMember()
 	{
-		echo "haha";		
-	}	
+		echo "haha";
+	}
 }

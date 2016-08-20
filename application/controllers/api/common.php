@@ -13,6 +13,18 @@ class common extends CI_Controller {
         $this->config->load('multiconfig');
     }
 
+
+    public function register()
+    {
+        $post  = $_POST;
+        if($post)
+        {
+            ApiSuccess('请填写数据信息');
+        }
+        $username = $post['username'];
+        $password = $post['password'];
+    }
+
     /**
      * 获取适合年龄配置信息
      * @author lindsey

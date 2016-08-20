@@ -88,7 +88,9 @@ class Videos extends CI_Controller {
         }
     }
 
-
+    /**
+     * 点赞数据信息
+     */
     public function supportCount()
     {
         $post  = $_POST;

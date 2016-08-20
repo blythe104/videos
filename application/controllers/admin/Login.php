@@ -5,15 +5,21 @@ class login extends CI_Controller{
 		parent::__construct();
 	}
 
+    /**
+     * @author lindsey
+     * 登录页面信息
+     * createTime 2016.05.19
+     */
 	public function index()
 	{
-		$this->load->view('admin/admin.html');
+		$this->load->view('admin/Login.html');
 	}
-	
-	
-	/**
-	* 登录
-	*/
+
+    /**
+     * @author lindsey
+     * 登录
+     * createTime 2016.05.19
+     */
 	public function Login()
 	{
 		$post = $_POST;
@@ -36,66 +42,35 @@ class login extends CI_Controller{
 			json_return($data);
 		}
 	}
-	
+
+    /**
+     * @author lindsey
+     * 退出登录
+     * createTime 2016.05.19
+     */
 	public function Loginout()
 	{
 		$this->session->unset_userdata('username');
 		header('Location:/');
 	}
-	/**
-	*登录后的首页显示
-	*/
 
+    /**
+     * @author lindsey
+     * 登录后展示页面
+     * createTime 2016.05.19
+     */
 	public function main()
 	{
-
 		$this->load->view('admin/main.html');
 	}
+
+    /**
+     * @author lindsey
+     * 系统首页
+     * createTime 2016.05.19
+     */
 	public function dashboard()
 	{
 		$this->load->view('admin/dashboard.html');
-	}
-	
-	public function manageblog()
-	{
-		$this->load->view('admin/manageblog.html');
-	}
-	
-	public function newpost()
-	{
-		$this->load->view('admin/newpost.html');
-	}
-	
-	public function messages()
-	{
-		$this->load->view('admin/messages.html');
-	}
-
-	public function reports()
-	{
-		$this->load->view('admin/reports.html');
-	}
-
-	public function elements()
-	{
-		$this->load->view('admin/elements.html');
-	
-	}
-
-	public function widgets()
-	{
-		$this->load->view('admin/widgets.html');
-	
-	}
-
-	public function calendar()
-	{
-		$this->load->view('admin/calendar.html');
-	
-	}
-	
-	public function tables()
-	{
-		$this->load->view('admin/tables.html');
 	}
 }
