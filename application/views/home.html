@@ -8,8 +8,12 @@
                     <p>Movie Theater</p>
                 </div>
                 <div class="search">
+                    <?php if($this->session->userdata('member')):?>
+                        <label>欢迎您：<?php echo $this->session->userdata('member')['musername'];?> </label><a  href="javascript:void(0);" style="float: right;" id="loginout">退出</a>
+                    <?php else:?>
                     <button class="stdbtn btn_blue" style="margin-left: 80px; margin-right: 30px;">注册</button>
                     <button class="stdbtn btn_black" id="login">登录</button>
+                    <?php endif;?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -139,8 +143,8 @@
             <div class="tc-box">
                 <h3>登录</h3>
                 <div class="tc-con">
-                    <p>username：<input class="username width100" ></p>
-                    <p>password：<input class="username width100"></p>
+                    <p>username：<input class="username width100" id="username"></p>
+                    <p>password：<input class="username width100" id="password"></p>
                     <p  style="float:left; margin-left: 20px; margin-top: 10px;"><input type="checkbox"><span style="margin-left: 10px;">记住密码</span></p>
                     <input type="button" value="登录" class="tc-btn">
                 </div>
@@ -218,13 +222,32 @@
             }
         </style>
         <script type="text/javascript">
-            $(function () {
-                $(".tc-btn").click(function () {
-                    $(".tanchuang").hide();
-                })
+            $(".tc-btn").click(function () {
+                var username = $('#username').val();
+                var password = $('#password').val();
+                $.post('/Home/login',{username:username,password:password},function(data){
+                    if(data.status == 1)
+                    {
+                        alert(data.msg);
+                        window.setTimeout(function(){
+                            window.location.href = data.url;
+                        },1000)
+                    }
+                });
             });
             $('#login').click(function(){
                 $('.tanchuang').css('display', 'block');
+            });
+            $('#loginout').click(function(){
+                $.post('/Home/LoginOut',{},function(data){
+                    if(data.status == 1)
+                    {
+                        alert(data.msg);
+                        window.setTimeout(function(){
+                            window.location.href = data.url;
+                        },1000)
+                    }
+                })
             })
         </script>
        <?php $this->load->view('footer.html');?>
