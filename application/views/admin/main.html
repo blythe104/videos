@@ -111,15 +111,20 @@ html { overflow-x: hidden; overflow-y: auto; }
    
     <div class="vernav2 iconmenu">
     	<ul>
-        	<li><a href="#formsub"  href="javascript:void(0);"  class="editor">会员管理</a>
+            <li><a href="#Admin"  href="javascript:void(0);"  class="editor">管理员管理</a>
+                <span class="arrow"></span>
+                <ul id="Admin">
+                    <li><a data_url="/admin/Admin"   class="show" href="javascript:void(0);" >管理员列表</a></li>
+                    <li><a data_url="/admin/delMembers" class="show" href="javascript:void(0);" >回收站</a></li>
+                </ul>
+            </li>
+        	<li><a href="#Member"  href="javascript:void(0);"  class="editor">会员管理</a>
             	<span class="arrow"></span>
-            	<ul id="formsub">
+            	<ul id="Member">
                     <li><a data_url="/admin/Members"   class="show" href="javascript:void(0);" >会员列表</a></li>
                     <li><a data_url="/admin/delMembers" class="show" href="javascript:void(0);" >回收站</a></li>
                 </ul>
             </li>
-
-
         	<li><a href="#comment" class="editor">评论管理</a>
             	<span class="arrow"></span>
             	<ul id="comment" class="show">
@@ -136,8 +141,6 @@ html { overflow-x: hidden; overflow-y: auto; }
                     <li><a data_url="/admin/Content/trashContent" class="show"  href="javascript:void(0);" >回收站</a></li>
                 </ul>
             </li>
-
-
             <li><a href="#addons" class="addons">其他页面</a>
             	<span class="arrow"></span>
             	<ul id="addons" class="show">
