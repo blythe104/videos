@@ -42,17 +42,12 @@ class Videos extends CI_Controller {
      */
     public function index()
     {
-        $condition = array(
-            'is_hot' => 0,
-            'is_del' => 0,
-            'whereis' => 1
-        );
         $page  = isset($_GET['page']) ? $_GET['page'] :1 ;
         $count = isset($_GET['row'])  ? $_GET['row']  :8 ;
         $filters['page']  = $page;
         $filters['rows']  = $count;
-        $lists          =  $this->contentmodel->getcontents($condition,$page,$count);
-        $rows           =  $this->contentmodel->getContentsCount($condition);
+        $lists          =  $this->contentmodel->getCommon($page,$count);
+        $rows           =  $this->contentmodel->getCommonCount();
         $pagination     =  getPagination($filters,$rows,strtolower(__class__));
 		$this->view('videos.html',array('contentlists'=>$lists,'pagination' => $pagination));
     }

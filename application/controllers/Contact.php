@@ -32,9 +32,9 @@ class contact extends CI_Controller {
 	*联系我首页
 	*/
 	public function index()
-        {
-		$this->view('contact.html');
-        }
+    {
+        $this->view('contact.html');
+    }
 
 
 }

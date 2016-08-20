@@ -31,20 +31,19 @@ class home extends CI_Controller {
 		$this->load->view('header.html',$content);
         $this->load->view($page,$params);	
 	}
-   
+
+    /**
+     * 首页数据信息
+     * @author lindsey
+     * createTime 2016.08.20
+     */
 	public function index()
 	{
-        $condition = array(
-            'is_hot' => 1,
-            'is_del' => 0,
-            'whereis' => 2
-        );
-        $content['littleads'] = $this->contentmodel->getcontents($condition);
-
-        $condition['whereis'] = 3;
-        $content['bigads'] = $this->contentmodel->getcontents($condition);
+        //获取小广告信息
+        $content['littleads'] = $this->contentmodel->getLittle();
+        //获取大广告
+        $content['bigads'] = $this->contentmodel->getBig();
 		$this->view('home.html',$content);
-
 	}
 
 

@@ -1,5 +1,9 @@
 <?php 
 class contentModel extends CI_Model{
+    const COMMON_VIDEO = 1;
+    const LITTLE_ADS   = 2;
+    const BIG_ADS      = 3;
+
     /**
      * 构造函数信息
      */
@@ -35,6 +39,37 @@ class contentModel extends CI_Model{
     }
 
     /**
+     * 获取小广告数据
+     * @return array
+     */
+    public function getLittle()
+    {
+        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::LITTLE_ADS);
+        return  $this->getcontents($condition);
+    }
+
+
+    /**
+     * 获取小广告数据
+     * @return array
+     */
+    public function getBig()
+    {
+        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::BIG_ADS);
+        return  $this->getcontents($condition);
+    }
+
+    /**
+     * 获取小广告数据
+     * @return array
+     */
+    public function getCommon($page,$pagecount)
+    {
+        $condition = array('is_hot' => 0, 'is_del' => 0, 'whereis' => self::COMMON_VIDEO);
+        return  $this->getcontents($condition,$page,$pagecount);
+    }
+
+    /**
      * 根据相应的条件获取内容总数
      * @param $condition
      * @return mixed
@@ -49,6 +84,38 @@ class contentModel extends CI_Model{
             ->from('vcontent')
             ->count_all_results();
         return $result;
+    }
+
+
+    /**
+     * 获取小广告数据
+     * @return array
+     */
+    public function getLittleCount()
+    {
+        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::LITTLE_ADS);
+        return  $this->getContentsCount($condition);
+    }
+
+
+    /**
+     * 获取小广告数据
+     * @return array
+     */
+    public function getBigCount()
+    {
+        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::BIG_ADS);
+        return  $this->getContentsCount($condition);
+    }
+
+    /**
+     * 获取小广告数据
+     * @return array
+     */
+    public function getCommonCount()
+    {
+        $condition = array('is_hot' => 0, 'is_del' => 0, 'whereis' => self::COMMON_VIDEO);
+        return  $this->getContentsCount($condition);
     }
 
     /**
