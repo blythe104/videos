@@ -24,7 +24,7 @@ class login extends CI_Controller{
 	{
 		$post = $_POST;
 		$username = $post['username'];
-		$password = $post['password'];
+		$password = md5($post['password']);
 		//导入usermodel
 		$this->load->model('admin/usermodel');
 		$result  = $this->usermodel->Login($username,$password);
@@ -51,7 +51,7 @@ class login extends CI_Controller{
 	public function Loginout()
 	{
 		$this->session->unset_userdata('username');
-		header('Location:/');
+        echo "<script>window.location.href='/admin/login';</script>";
 	}
 
     /**
@@ -61,7 +61,13 @@ class login extends CI_Controller{
      */
 	public function main()
 	{
-		$this->load->view('admin/main.html');
+        if($this->session->userdata('username'))
+        {
+            $this->load->view('admin/main.html');
+        }else{
+            echo "<script>window.location.href='/admin/login';</script>";
+        }
+
 	}
 
     /**
