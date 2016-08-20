@@ -95,6 +95,20 @@ class Videos extends CI_Controller {
     {
         $post  = $_POST;
         $id    = $post['id'];
+        $uid   = $post['uid'];
+        if($uid)
+        {
+            $result = $this->detailmodel->checkUserisSupport($uid);
+            if(!$result)
+            {
+                $logdata['muid'] = $uid;
+                $logdata['vid']  = $id;
+                $logdata['create_time'] = time();
+                $this->detailmodel->addSupportLog($logdata);
+            }else{
+
+            }
+        }
         $result = $this->detailmodel->checkishas($id);
         if($result)
         {
@@ -107,7 +121,6 @@ class Videos extends CI_Controller {
                     'msg' => '',
                     'content' => array()
                 );
-                ApiSuccess($data);
             }
         }else{
             $data['vid'] = $id;
@@ -118,9 +131,11 @@ class Videos extends CI_Controller {
                     'msg' => '',
                     'content' => array()
                 );
-                ApiSuccess($data);
             }
         }
+
+
+        ApiSuccess($data);
     }
 
 }

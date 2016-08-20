@@ -23,8 +23,6 @@ class home extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	
-	
 	public function View($page,$params = array())
 	{
 		$content['title'] = "home";
@@ -46,9 +44,49 @@ class home extends CI_Controller {
 		$this->view('home.html',$content);
 	}
 
+    /**
+     * 会员登录
+     * @author lindsey
+     * createTime 2016.08.20
+     */
+    public function Login()
+    {
+        $post = $_POST;
+        $username = $post['username'];
+        $password = md5($post['password']);
+        //导入usermodel
+        $this->load->model('admin/membermodel');
+        $result  = $this->membermodel->Login($username,$password);
+        if(!empty($result))
+        {
+            $member['musername'] = $username;
+            $member['mid']       = $result[0]['mid'];
+            $this->session->set_userdata('member',$member);
+            $data['status']  = 1;
+            $data['msg']     = "登录成功！";
+            $data['url']     = "/";
+            json_return($data);
+        }else{
+            $data['status']  = 0;
+            $data['msg']     = "登录失败！";
+            $data['url']     = "/";
+            json_return($data);
+        }
+    }
 
-
-
+    /**
+     * @author lindsey
+     * 退出登录
+     * createTime 2016.08.20
+     */
+    public function LoginOut()
+    {
+        $this->session->unset_userdata('musername');
+        $data['status']  = 1;
+        $data['msg']     = "退出成功！";
+        $data['url']     = "/";
+        json_return($data);
+    }
 
 }
 
