@@ -1,87 +1,75 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>登录页面</title>
-<link rel="stylesheet" href="../public/css/style.default.css" type="text/css" />
-<script type="text/javascript" src="../public/js/jquery.js"></script>
-<script type="text/javascript" src="../public/js/jquery.min.js"></script>
-</head>
-<body class="loginpage">
-	<div class="loginbox">
-    	<div class="loginboxinner">
-        	
-            <div class="logo">
-            	<h1 class="logo">Ama.<span>Admin</span></h1>
-				<span class="slogan">后台管理系统</span>
-            </div><!--logo-->
-            
-            <br clear="all" /><br />
-            
-            <div class="nousername">
-				<div class="loginmsg">用户名不正确.</div>
-            </div><!--nousername-->
-            
-            <div class="nopassword">
-				<div class="loginmsg">密码不正确.</div>
-                <div class="loginf">
-                    <div class="thumb"><img alt="" src="../public/images/thumbs/avatar1.png" /></div>
-                    <div class="userlogged">
-                        <h4></h4>
-                        <a href="images.html">Not <span></span>?</a>
-                    </div>
-                </div><!--loginf-->
-            </div><!--nopassword-->
-            
-            <form method="post" action="">
-            	
-                <div class="username">
-                	<div class="usernameinner">
-                    	<input type="text" name="username" id="username" />
-                    </div>
-                </div>
-                
-                <div class="password">
-                	<div class="passwordinner">
-                    	<input type="password" name="password" id="password" />
-                    </div>
-                </div>
-                
-                <button  type="button" class="loginbutton" >
-                登录</button>
-                <div class="keep"><input type="checkbox" /> 记住密码</div>
-            
-            </form>
-            
-        </div><!--loginboxinner-->
-    </div><!--loginbox-->
+<link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
+<link rel="stylesheet" href="../../public/css/plugins/jQuery.ui.css" type="text/css"/>
+<script type="text/javascript" src="../../public/js/jquery.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.uniform.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.flot.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="../../public/js/custom/general.js"></script>
+<script type="text/javascript" src="../../public/js/custom/dashboard.js"></script>
 
-<script type="text/javascript">
- $('.loginbutton').click(function(){
-
-	if($('#username').val() == '' && $('#password').val() == '') {
-		$('.nousername').fadeIn();
-		$('.nopassword').hide();
-		return false;	
-	}
-	if($('#username').val() != '' && $('#password').val() == '') {
-		$('.nopassword').fadeIn().find('.userlogged h4, .userlogged a span').text($('#username').val());
-		$('.nousername,.username').hide();
-		return false;
-	}
-	var username = $('#username').val();
-	var password = $('#password').val();
-	$.post('Login/login',{username:username,password:password},function(data){
-		if(data.status)
-		{
-			window.location.href = data.url;
-		}else{
-			alert(data.msg);
-			window.location.href = data.url;	
-		}
-	});
-})
-</script>
-</body>
-</html>
+    
+        <div class="pageheader notab">
+            <h1 class="pagetitle">Tables</h1>
+            <span class="pagedesc">This is a sample description of a page</span>
+            
+        </div><!--pageheader-->
+        
+        <div id="contentwrapper" class="contentwrapper">
+                
+          <div class="contenttitle2">
+                	<h3>Dynamic Table with Checkbox Column</h3>
+                </div><!--contenttitle-->
+                <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="dyntable2">
+                    <colgroup>
+                        <col class="con0" style="width: 4%" />
+                        <col class="con1" />
+                        <col class="con0" />
+                        <col class="con1" />
+                        <col class="con0" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                          <th class="head0 nosort"><input type="checkbox" /></th>
+                            <th class="head0">ID</th>
+                            <th class="head1">用户名</th>
+                            <th class="head0">手机号</th>
+                            <th class="head1">创建时间</th>
+                            <th class="head0">操作</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                          <th class="head0"><span class="center">
+                            <input type="checkbox" />
+                          </span></th>
+                            <th class="head0">Rendering engine</th>
+                            <th class="head1">Browser</th>
+                            <th class="head0">Platform(s)</th>
+                            <th class="head1">Engine version</th>
+                            <th class="head0">CSS grade</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <?php
+			 foreach($list as $key => $value):?>
+			<tr class="gradeA">
+                          	<td align="center">
+					<span class="center">
+                            			<input type="checkbox" />
+                          		</span>
+				</td>
+                            <td  class="head0"><?php echo $value['id'];?></td>
+                            <td><?php echo $value['username'];?></td>
+                            <td><?php echo $value['mobile'];?></td>
+                            <td><?php echo date("Y-m-d",$value['create_time']);?></td>
+		    	    <td class="center"><a href="#">编辑</a></td>
+                        </tr>
+			<?php endforeach;?>
+                    </tbody>
+                </table>
+        
+        </div><!--contentwrapper-->
+        
