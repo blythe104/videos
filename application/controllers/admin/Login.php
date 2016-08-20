@@ -1,5 +1,9 @@
-<?php 
+<?php  if (!defined('BASEPATH')) {exit('No direct script access allowed');}
 class login extends CI_Controller{
+
+    /**
+     * 构造函数
+     */
 	public function __construct()
 	{
 		parent::__construct();
@@ -26,8 +30,8 @@ class login extends CI_Controller{
 		$username = $post['username'];
 		$password = md5($post['password']);
 		//导入usermodel
-		$this->load->model('admin/usermodel');
-		$result  = $this->usermodel->Login($username,$password);
+		$this->load->model('admin/adminmodel');
+		$result  = $this->adminmodel->Login($username,$password);
 		if(!empty($result))
 		{
 			$this->session->set_userdata('username',$username);

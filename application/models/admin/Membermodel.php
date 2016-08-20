@@ -6,20 +6,37 @@ class memberModel extends CI_Model{
     }
 
     /**
+     * 会员登录
+     * @param $username
+     * @param $password
+     * @return array
+     */
+    public function Login($username,$password)
+    {
+        $condition = array(
+            'select' => "mid",
+            'where' => array(
+                'musername' => $username,
+                'mpassword' => $password,
+                'mstatus'   => 1
+            )
+        );
+        return $this->getMembers($condition);
+    }
+
+    /**
      * 根据条件返回会员信息
      * @return array
      */
-    public function getmembers($condition)
+    public function getMembers($condition)
     {
         $this->parseParameter($condition);
-        $result =  $this->db->select('*')
-                        ->from('vmember')
+        $result =  $this->db->from('vmember')
                         ->get()
                         ->result_array();
         $result =  empty($result) ? array() : $result;
         return $result;
     }
-
 
     /**
      * 获取会员信息
@@ -30,18 +47,23 @@ class memberModel extends CI_Model{
     public function getCommonMember($page = 1,$count = 15)
     {
         $condition =  array(
+            'select' => 'vmember.mid,vmember.musername,vmember.mmobile,vmember.mcreate_time',
             'where' => array(
                 'mstatus' => 1
+            ),
+            'join'  => array(
+                'table' => "vmemberinfo",
+                'condition' => 'vmemberinfo.muid = vmember.mid',
+                'direction' => "left"
             ),
             'limit' => array(
                 'limit' => $count,
                 'offset' => ($page -1)*$count
             ),
-            'order' => 'mcreate_time desc'
+            'order' => 'vmember.mcreate_time desc'
         );
-        return  $this->getmembers($condition);
+        return  $this->getMembers($condition);
     }
-
 
     /**
      * 初始化参数信息
@@ -51,27 +73,25 @@ class memberModel extends CI_Model{
     {
         foreach($condition as $key => $value)
         {
+            if($key == "select")
+            {
+                $this->db->select($value);
+            }
             if($key == "where")
             {
                 $this->db->where($value);
-            }else if($key == "order")
+            }
+            if($key == "order")
             {
                 $this->db->order_by($value);
-            }else if($key == "limit")
+            }
+            if($key == "limit")
             {
                 $this->db->limit($value['limit'],$value['offset']);
-            }else if($key == 'join')
+            }
+            if($key == 'join')
             {
-                if(count($value) > 1)
-                {
-                    foreach($value as $k => $v)
-                    {
-                        $this->db->join($v['table'],$v['condition'],$v['direction']);
-                    }
-                }else{
-                    $this->db->join($value['table'],$value['condition'],$value['direction']);
-                }
-
+                $this->db->join($value['table'],$value['condition'],$value['direction']);
             }
         }
     }

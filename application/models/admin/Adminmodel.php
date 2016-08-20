@@ -6,6 +6,25 @@ class adminModel extends CI_Model{
     }
 
     /**
+     * 管理员登录
+     * @param $username
+     * @param $password
+     * @return array
+     */
+    public function Login($username,$password)
+    {
+        $condition = array(
+            'select' => "id",
+            'where' => array(
+                'username' => $username,
+                'password' => $password,
+                'status'   => 1
+            )
+        );
+        return $this->getAdmin($condition);
+    }
+
+    /**
      * 根据条件获取管理员信息
      * @param $condition
      * @return array
@@ -13,8 +32,7 @@ class adminModel extends CI_Model{
     public function getAdmin($condition)
     {
         $this->parseParameter($condition);
-        $result =  $this->db->select('*')
-                        ->from('vadmin')
+        $result =  $this->db->from('vadmin')
                         ->get()
                         ->result_array();
         $result =  empty($result) ? array() : $result;
@@ -30,6 +48,7 @@ class adminModel extends CI_Model{
     public function getCommonAdmin($page = 1,$count = 15)
     {
         $condition =  array(
+            'select' => 'id,username,mobile,create_time',
             'where' => array(
                 'status' => 1
             ),
@@ -42,7 +61,6 @@ class adminModel extends CI_Model{
         return $this->getAdmin($condition);
     }
 
-
     /**
      * 初始化参数信息
      * @param $condition
@@ -51,16 +69,23 @@ class adminModel extends CI_Model{
     {
         foreach($condition as $key => $value)
         {
+            if($key == "select")
+            {
+                $this->db->select($value);
+            }
             if($key == "where")
             {
                 $this->db->where($value);
-            }else if($key == "order")
+            }
+            if($key == "order")
             {
                 $this->db->order_by($value);
-            }else if($key == "limit")
+            }
+            if($key == "limit")
             {
                 $this->db->limit($value['limit'],$value['offset']);
-            }else if($key == 'join')
+            }
+            if($key == 'join')
             {
                 if(count($value) > 1)
                 {
@@ -71,11 +96,9 @@ class adminModel extends CI_Model{
                 }else{
                     $this->db->join($value['table'],$value['condition'],$value['direction']);
                 }
-
             }
         }
     }
-
 }
 
 ?>
