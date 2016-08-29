@@ -25,6 +25,7 @@ class Single extends CI_Controller {
     }
 
     /**
+     * @author lindsey
      * 视图页面
      * @param $page
      * @param array $params
@@ -58,7 +59,7 @@ class Single extends CI_Controller {
     public function sendComment()
     {
         $post  = $_POST;
-        $uid   = isset($post['uid']) ? $post['uid'] : 0 ;
+        $uid   = isset($post['uid']) ? $post['uid'] : 0;
         $content = $post['content'];
         $vid     = $post['vid'];
         $pcommentId  = $post['commentId'];
@@ -70,6 +71,7 @@ class Single extends CI_Controller {
         $data['create_time'] = time();
         if($this->detailmodel->addComment($data))
         {
+            p($this->db->last_query());
             $data = array(
                 'msg' => "评论成功！",
                 'content' => $content
@@ -77,6 +79,5 @@ class Single extends CI_Controller {
             ApiSuccess($data);
         }
     }
-
 
 }

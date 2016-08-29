@@ -33,7 +33,25 @@ class Members extends CI_Controller{
      */
 	public function addMember()
 	{
-		echo "haha";
+        $post  = $_POST;
+        if($post)
+        {
+            ApiSuccess('请填写数据信息');
+        }
+        $username = $post['username'];
+        $password = $post['password'];
+
+        $data['musername'] = $username;
+        $data['mpassword'] = $password;
+
+        if($this->membermodel->add($data))
+        {
+            $data   =   array(
+                'msg' => '添加成功！',
+                'content' => ''
+            );
+            ApiSuccess($data);
+        }
 	}
 
     /**
