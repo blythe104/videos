@@ -81,7 +81,7 @@ class home extends CI_Controller {
      */
     public function LoginOut()
     {
-        $this->session->unset_userdata('musername');
+        $this->session->unset_userdata('member');
         $data['status']  = 1;
         $data['msg']     = "退出成功！";
         $data['url']     = "/";

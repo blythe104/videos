@@ -21,6 +21,7 @@ class Single extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('admin/contentmodel');
+        $this->load->model('admin/detailmodel');
     }
 
     /**
@@ -42,12 +43,39 @@ class Single extends CI_Controller {
     public function index()
     {
         $id     =   $_GET['id'];
-        $condition = array(
-            'vcontent.id' => $id,
-            'is_del' => 0
-        );
-        $content  = $this->contentmodel->getcontents($condition);
-        $this->view('single.html',array('content' => $content));
+        $content  = $this->contentmodel->getSingleContent($id);
+        $comment  = $this->detailmodel->getComment($id);
+        $commentCount  = $this->detailmodel->getCommentCount($id);
+        $comment  = list_to_tree($comment);
+        //p($comment);
+        $this->view('single.html',array('content' => $content,'comment' => $comment,'commentCount' => $commentCount));
+    }
+
+    /**
+     * @author lindsey
+     * 用户对视频或者图书做评价
+     */
+    public function sendComment()
+    {
+        $post  = $_POST;
+        $uid   = isset($post['uid']) ? $post['uid'] : 0 ;
+        $content = $post['content'];
+        $vid     = $post['vid'];
+        $pcommentId  = $post['commentId'];
+
+        $data['muid'] = $uid;
+        $data['pid']  = $pcommentId;
+        $data['content'] = $content;
+        $data['vid']     = $vid;
+        $data['create_time'] = time();
+        if($this->detailmodel->addComment($data))
+        {
+            $data = array(
+                'msg' => "评论成功！",
+                'content' => $content
+            );
+            ApiSuccess($data);
+        }
     }
 
 

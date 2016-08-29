@@ -52,7 +52,6 @@ class Videos extends CI_Controller {
 		$this->view('videos.html',array('contentlists'=>$lists,'pagination' => $pagination));
     }
 
-
     /**
      *下载次数记录
      */
@@ -90,54 +89,96 @@ class Videos extends CI_Controller {
 
     /**
      * 点赞数据信息
+     * @author lindsey
+     * createTime 2016.08.23
      */
     public function supportCount()
     {
         $post  = $_POST;
-        $id    = $post['id'];
-        $uid   = $post['uid'];
-        if($uid)
-        {
-            $result = $this->detailmodel->checkUserisSupport($uid);
-            if(!$result)
-            {
-                $logdata['muid'] = $uid;
-                $logdata['vid']  = $id;
-                $logdata['create_time'] = time();
-                $this->detailmodel->addSupportLog($logdata);
-            }else{
+        $id    = isset($post['id']) ? $post['id'] : 0 ;
+        $uid   = isset($post['uid']) ? $post['uid'] : 0;
 
-            }
-        }
-        $result = $this->detailmodel->checkishas($id);
-        if($result)
+        $ip =  real_ip();
+        //检测用户是否已经点赞
+        if(!$this->checkIsSupport($uid,$ip,$id))
         {
-            $download = $result['support_count'];
-            $data['vid'] = $id;
-            $data['support_count'] = $download +1;
-            if($this->detailmodel->edit($data))
+            //查看数据信息是否已经在内容详情表中存在
+            $result = $this->detailmodel->checkishas($id);
+            if($result)
             {
-                $data   = array(
-                    'msg' => '',
-                    'content' => array()
-                );
+                //如果存在那么将它的点赞数加一
+                $download = $result['support_count'];
+                $data['vid'] = $id;
+                $data['support_count'] = $download +1;
+                if($this->detailmodel->edit($data) && $this->updateSupportLog($uid,$ip,$id))
+                {
+                    $data   = array(
+                        'msg' => '',
+                        'content' => array()
+                    );
+                    ApiSuccess($data);
+                }else{
+                    ApiSuccess('点赞失败！');
+                }
+            }else{
+                //如果不存在那么添加数据
+                $data['vid'] = $id;
+                $data['support_count'] = 1;
+                if($this->detailmodel->add($data) && $this->updateSupportLog($uid,$ip,$id))
+                {
+                    $data   = array(
+                        'msg' => '',
+                        'content' => array()
+                    );
+                    ApiSuccess($data);
+                }else{
+                    ApiSuccess('点赞失败！');
+                }
             }
         }else{
-            $data['vid'] = $id;
-            $data['support_count'] = 1;
-            if($this->detailmodel->add($data))
-            {
-                $data   = array(
-                    'msg' => '',
-                    'content' => array()
-                );
-            }
+            ApiSuccess('您已经点过赞了！');
         }
-
-
-        ApiSuccess($data);
     }
 
+    /**
+     * 检测用户是否已经点赞
+     * @param $uid
+     * @param $ip
+     * @param $vid
+     * @return bool
+     */
+    private function checkIsSupport($uid,$ip,$vid)
+    {
+        $userResult = $this->detailmodel->checkUserisSupport($uid,0,$vid);
+        $ipResult   = $this->detailmodel->checkUserisSupport(0,$ip,$vid);
+        if($userResult || $ipResult)
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param int $whois
+     * @param int $ip
+     * @param int $vid
+     * @return bool
+     */
+    private function updateSupportLog($whois = 0,$ip = 0,$vid = 0)
+    {
+        $logdata['muid'] = empty($whois) ? 0 : $whois;
+        $logdata['mip']  = empty($ip)    ? 0 : $ip;
+        $logdata['vid']  = $vid;
+        $logdata['create_time'] = time();
+        if($this->detailmodel->addSupportLog($logdata))
+        {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 /* End of file welcome.php */
