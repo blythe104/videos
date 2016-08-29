@@ -47,7 +47,7 @@ input, select, textarea, button { font-size: 12px; font-family: "Helvetica Neue"
 a { text-decoration: none; color: #666; outline: none; }
 /*button { outline: none; }*/
 
-.loginbutton {font-size: 12px; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; outline: none; margin: 0; };
+.loginbutton {font-size: 12px; font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; outline: none; margin: 0; }
 a img { border: 0; }
 h1,h2,h3,h4,h5, span.h3 { font-family: 'RobotoBoldCondensed', Arial, Helvetica, sans-serif; font-weight: normal; }
 small { font-size: 11px; }
@@ -925,7 +925,7 @@ form input:focus {
 	background: #fff; -moz-box-shadow: inset 1px 1px 2px #eee; -webkit-box-shadow: inset 1px 1px 2px #eee; box-shadow: inset 1px 1px 2px #eee;
 }
 form textarea { 
-	padding: 6px 5px; border: 1px solid #ccc; width: 85%; -moz-border-radius: 2px; -webkit-border-radius: 2px; 
+	padding: 6px 5px; border: 1px solid #ccc; width: 100%; -moz-border-radius: 2px; -webkit-border-radius: 2px;
 	border-radius: 2px; -moz-box-shadow: inset 0 1px 3px #ddd; -webkit-box-shadow: inset 0 1px 3px #ddd;
 	box-shadow: inset 0 1px 3px #ddd; background: #fcfcfc; color: #666; 
 }
@@ -1169,7 +1169,7 @@ form label.error { float: none; color: #f00; font-size: 11px; display: block; te
 /********************************/
 
 
-.pagination { list-style: none; overflow: hidden; }
+.pagination {list-style: none;overflow: hidden;margin-right: 20px;}
 .pagination li { display: inline-block; float: left; margin-right: 5px; }
 .pagination li.first, .pagination li.previous, .pagination li.next, .pagination li.last { font-size: 18px; }
 .pagination li a { display: block; font-weight: bold; border: 1px solid #ccc; padding: 5px 10px; color: #333; line-height: 21px; vertical-align: top; }
@@ -1177,7 +1177,7 @@ form label.error { float: none; color: #f00; font-size: 11px; display: block; te
 .pagination li a:hover { cursor: pointer; text-decoration: none; background: #eee; }
 .pagination li a.current { background: #FB9337; color: #fff; border: 1px solid #F0882C; }
 .pagination li.first a:active, .pagination li.previous a:active, .pagination li.next a:active, .pagination li.last a:active {
-	background: #333; color: #fff; border 1px solid #272727;
+	background: #333; color: #fff; border: 1px solid #272727;
 }
 .pagination li a.disable { color: #ccc; }
 .pagination li a.disable:hover { background: #f7f7f7; cursor: default; }
@@ -1226,7 +1226,7 @@ form label.error { float: none; color: #f00; font-size: 11px; display: block; te
 
 
 .colorselector { 
-	display: inline-block; height: 28px; width: 28x; vertical-align: middle; 
+	display: inline-block; height: 28px; width: 28px; vertical-align: middle;
 	position: relative; vertical-align: middle; margin-left: 5px; 
 }
 .colorselector span { 

@@ -1,7 +1,11 @@
 <?php 
 class contentModel extends CI_Model{
+
+    //普通数据
     const COMMON_VIDEO = 1;
+    //小广告数据
     const LITTLE_ADS   = 2;
+    //大广告数据
     const BIG_ADS      = 3;
 
     /**
@@ -22,20 +26,37 @@ class contentModel extends CI_Model{
      */
     public function getcontents($condition = array(),$page = 1,$count = 16,$order = "sort")
     {
-        if($condition)
-        {
-            $this->db->where($condition);
-        }
-        $result =  $this->db->select('vcontent.*,support_count,comment_count,views_count,repost_count,download_count')
-            ->from('vcontent')
-            ->join('vdetail','vdetail.vid = vcontent.id','left')
-            ->limit($count,($page-1)*$count)
-            ->order_by("$order desc")
-            ->get()
-            ->result_array();
+        $mulitCondition  = array(
+            'select' => 'vcontent.*,support_count,comment_count,
+                         views_count,repost_count,download_count',
+            'where' => $condition,
+            'join'  => array(
+                'table' => 'vdetail',
+                'condition' => 'vdetail.vid = vcontent.id',
+                'direction' => 'left'
+            ),
+            'limit'  => array(
+                'limit' => $count,
+                'offset' =>($page-1)*$count
+            ),
+            'order' => "$order desc",
+        );
 
+        $this->parseParameter($mulitCondition);
+        $result =  $this->db->get('vcontent')->result_array();
         $result =  empty($result) ? array() : $result;
         return $result;
+    }
+
+    /**
+     * 获取单个数据信息
+     * @param $vid
+     * @return array
+     */
+    public function getSingleContent($vid)
+    {
+        $condition = array('vcontent.id' => $vid, 'is_del' => 0);
+        return  $this->getcontents($condition);
     }
 
     /**
@@ -47,7 +68,6 @@ class contentModel extends CI_Model{
         $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::LITTLE_ADS);
         return  $this->getcontents($condition);
     }
-
 
     /**
      * 获取小广告数据
@@ -86,7 +106,6 @@ class contentModel extends CI_Model{
         return $result;
     }
 
-
     /**
      * 获取小广告数据
      * @return array
@@ -96,7 +115,6 @@ class contentModel extends CI_Model{
         $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::LITTLE_ADS);
         return  $this->getContentsCount($condition);
     }
-
 
     /**
      * 获取小广告数据
@@ -136,6 +154,37 @@ class contentModel extends CI_Model{
     public function edit($data)
     {
         return $this->db->where('id',$data['id'])->update('vcontent',$data);
+    }
+
+    /**
+     * 初始化参数信息
+     * @param $condition
+     */
+    public function parseParameter($condition)
+    {
+        foreach($condition as $key => $value)
+        {
+            if($key == "select")
+            {
+                $this->db->select($value);
+            }
+            if($key == "where")
+            {
+                $this->db->where($value);
+            }
+            if($key == "order")
+            {
+                $this->db->order_by($value);
+            }
+            if($key == "limit")
+            {
+                $this->db->limit($value['limit'],$value['offset']);
+            }
+            if($key == 'join')
+            {
+                $this->db->join($value['table'],$value['condition'],$value['direction']);
+            }
+        }
     }
 
 }

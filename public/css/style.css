@@ -1053,10 +1053,10 @@ font-weight: 700;
 	margin-bottom:1em;
 }
 .single p{
-	color:#000;
-	font-size:1.4em;
-	font-weight:600;
-	margin-bottom:1em;
+    color: #666;
+    /* font-size:1.4em; */
+    /* font-weight:600; */
+    margin-bottom:1em;
 }
 .single p i {
 	font-weight:400;

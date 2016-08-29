@@ -3,6 +3,7 @@ class detailModel extends CI_Model{
 
     private $mainTable = "vdetail";
     private $slaveSupportTalbe = "vsupportlog";
+    private $slaveCommentTable = "vcomment";
     /**
      * 构造函数信息
      */
@@ -47,9 +48,16 @@ class detailModel extends CI_Model{
      * @param $uid
      * @return int
      */
-    public function checkUserisSupport($uid)
+    public function checkUserisSupport($uid,$ip,$vid)
     {
-        $data  = $this->db->where('muid',$uid)->get($this->slaveSupportTalbe)->row_array();
+        $condition  = array('vid'  => $vid);
+        if($uid)
+        {
+            $condition['muid'] = $uid;
+        }else{
+            $condition['mip']  = $ip;
+        }
+        $data  = $this->db->where($condition)->get($this->slaveSupportTalbe)->row_array();
         return empty($data) ? 0 : $data;
     }
 
@@ -61,6 +69,41 @@ class detailModel extends CI_Model{
     public function addSupportLog($data)
     {
         return $this->db->insert($this->slaveSupportTalbe,$data);
+    }
+
+    /**
+     * 添加评论信息数据
+     * @param $data
+     * @return mixed
+     */
+    public function addComment($data)
+    {
+        return $this->db->insert($this->slaveCommentTable,$data);
+    }
+
+    /**
+     * 获取单个内容的评论数据
+     * @param $vid
+     * @return array
+     */
+    public function getComment($vid)
+    {
+        $condition  = array('vid'  => $vid,'status' => 1);
+        $order      = "create_time asc";
+        $result     = $this->db->where($condition)->order_by($order)->get($this->slaveCommentTable)->result_array();
+        return    empty($result) ? array() : $result;
+    }
+
+    /**
+     * 获取评论总数
+     * @param $vid
+     * @return array
+     */
+    public function getCommentCount($vid)
+    {
+        $condition  = array('vid'  => $vid,'status' => 1);
+        $result     = $this->db->from($this->slaveCommentTable)->where($condition)->count_all_results();
+        return    $result;
     }
 }
 

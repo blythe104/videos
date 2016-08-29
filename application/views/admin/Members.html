@@ -33,22 +33,11 @@
                     <th class="head0">ID</th>
                     <th class="head1">用户名</th>
                     <th class="head0">手机号</th>
+                    <th class="head1">状态</th>
                     <th class="head1">创建时间</th>
                     <th class="head0">操作</th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                  <th class="head0"><span class="center">
-                    <input type="checkbox" />
-                  </span></th>
-                    <th class="head0">Rendering engine</th>
-                    <th class="head1">Browser</th>
-                    <th class="head0">Platform(s)</th>
-                    <th class="head1">Engine version</th>
-                    <th class="head0">CSS grade</th>
-                </tr>
-            </tfoot>
             <tbody>
             <?php foreach($list as $key => $value):?>
                 <tr class="gradeA">
@@ -60,12 +49,34 @@
                     <td  class="head0"><?php echo $value['mid'];?></td>
                     <td><?php echo $value['musername'];?></td>
                     <td><?php echo $value['mmobile'];?></td>
+                    <td><?php echo $value['mstatus']?"<lable style='color: #008000;font-weight: bolder;'>正常</lable>":"<lable style='color: red;font-weight: bolder;'>禁用</lable>";?></td>
                     <td><?php echo date("Y-m-d",$value['mcreate_time']);?></td>
-                    <td class="center"><a href="#">编辑</a></td>
+                    <td class="center">
+                        <a href="javascript:void(0);" style="color: #008000;font-weight: bolder;" data-mstatus="1" data-muid="<?php echo $value['mid'];?>" class="closed">启用</a>
+                        <a href="javascript:void(0);" style="color: red;font-weight: bolder; margin-left: 15px;" data-mstatus="0" data-muid="<?php echo $value['mid'];?>" class="closed">禁用</a>
+                    </td>
                 </tr>
             <?php endforeach;?>
             </tbody>
         </table>
+    <script type="text/javascript">
+        $('.closed').click(function(){
+            var status = $(this).attr('data-mstatus');
+            var muid   = $(this).attr('data-muid');
+            $.post('/admin/Members/editMemberStatus',{mid:muid,mstatus:status},function(data){
+                if(data.status)
+                {
+                    alert(data.msg);
+                    window.setTimeout(function(){
+                        window.location.href="/admin/Members/index";
+                    },3000);
+
+                }
+            })
+        })
+    </script>
 
 </div><!--contentwrapper-->
+<div class="clearfix"> </div>
+<?php echo $pagination;?>
         

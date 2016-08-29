@@ -78,7 +78,7 @@
 						</div>
 						<div class="single">
 							<h3>Lorem Ipsum IS A TENSE, TAUT, COMPELLING THRILLER</h3>
-							<p>STORY:<i> <?php echo $value['summary'];?></i></p>
+							<p>STORY:<?php echo $value['summary'];?></p>
 						</div>
 							<div class="best-review">
 								<h4>Best Reader's Review</h4>
@@ -94,53 +94,47 @@
 	    <div class="comments-section">
 	        <div class="comments-section-head">
 				<div class="comments-section-head-text">
-					<h3>25 Comments</h3>
+					<h3><?php echo $commentCount;?> Comments</h3>
 				</div>
 				<div class="clearfix"></div>
 		    </div>
 			<div class="comments-section-grids">
-				<div class="comments-section-grid">
-					<div class="col-md-2 comments-section-grid-image">
-						<img src="public/images/eye-brow.jpg" class="img-responsive" alt="" />
-					</div>
-					<div class="col-md-10 comments-section-grid-text">
-						<h4><a href="#">MARWA ELGENDY</a></h4>
-						<label>5/4/2014 at 22:00   </label>
-						<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
-						<span><a href="#">Reply</a></span>
-						<i class="rply-arrow"></i>
-					</div>
-					<div class="clearfix"></div>
-				</div>
+                <?php foreach($comment as $key => $value):?>
+                    <div class="comments-section-grid">
+                        <div class="col-md-2 comments-section-grid-image">
+                            <img src="public/images/eye-brow.jpg" class="img-responsive" alt="" />
+                        </div>
+                        <div class="col-md-10 comments-section-grid-text">
+                            <h4><a href="#">MARWA ELGENDY</a></h4>
+                            <label><?php echo date("d/m/Y",$value['create_time']);?> at <?php echo date("H:i:s",$value['create_time']);?>  </label>
+                            <p style="width: 400px !important;"><?php echo $value['content'];?></p>
+                            <span><a href="#reply" data-id="<?php echo $value['pid'] ? $value['pid'] : $value['id'] ;?>" class="reply">Reply</a></span>
+                            <i class="rply-arrow"></i>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                <?php if(!empty($value['_child'])):
+                        foreach($value['_child'] as $k => $v):
+                ?>
 				<div class="comments-section-grid comments-section-middle-grid">
 					<div class="col-md-2 comments-section-grid-image">
 						<img src="public/images/beauty.jpg" class="img-responsive" alt="" />
 					</div>
 					<div class="col-md-10 comments-section-grid-text">
 						<h4><a href="#">MARWA ELGENDY</a></h4>
-						<label>5/4/2014 at 22:00   </label>
-						<p>But I must explain to you how all this idea denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
-						<span><a href="#">Reply</a></span>
+						<label><?php echo date("d/m/Y",$v['create_time']);?> at <?php echo date("H:i:s",$v['create_time']);?>   </label>
+						<p style="word-break:break-word;"><?php echo $v['content'];?></p>
+						<span><a href="#reply" class="reply" data-id="<?php echo $v['pid'] ? $v['pid'] : $v['id'] ;?>">Reply</a></span>
 						<i class="rply-arrow"></i>
 					</div>
 					<div class="clearfix"></div>
 				</div>
-				<div class="comments-section-grid">
-					<div class="col-md-2 comments-section-grid-image">
-						<img src="public/images/stylish.jpg" class="img-responsive" alt="" />
-					</div>
-					<div class="col-md-10 comments-section-grid-text">
-						<h4><a href="#">MARWA ELGENDY</a></h4>
-						<label>5/4/2014 at 22:00   </label>
-						<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
-						<span><a href="#">Reply</a></span>
-						<i class="rply-arrow"></i>
-					</div>
-					<div class="clearfix"></div>
-				</div>
+                <?php endforeach; endif;?>
+                <?php endforeach;?>
 			</div>
 	    </div>
 	  <!-- comments-section-ends -->
+
 		  <div class="reply-section">
 			  <div class="reply-section-head">
 				  <div class="reply-section-head-text">
@@ -148,14 +142,16 @@
 				  </div>
 			  </div>
 			<div class="blog-form">
-			    <form>
-					<input type="text" class="text" value="Enter Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}">
+			    <form id="reply">
+                    <input type="hidden" class="data_id"  vvalue="<?php echo $content[0]['id'];?>" pvalue="">
+					<!--<input type="text" class="text" value="Enter Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}">
 					<input type="text" class="text" value="Enter Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}">
-					<input type="text" class="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}">
-					<textarea></textarea>
-					<input type="button" value="SUBMIT COMMENT">
+					<input type="text" class="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}">-->
+					<textarea class="text" id="content" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}"></textarea>
+                    <input type="button" class="submitComment" value="SUBMIT COMMENT">
 			    </form>
 			 </div>
+
 		  </div>
 		  </div>
 					<div class="col-md-3 side-bar">
@@ -325,7 +321,9 @@
 			<li><img src="public/images/r5.jpg" alt=""/></li>
 			<li><img src="public/images/r6.jpg" alt=""/></li>
 		</ul>
+            <script type="text/javascript" src="../public/js/jquery.flexisel.js"></script>
 			<script type="text/javascript">
+
 		$(window).load(function() {
 			
 		  $("#flexiselDemo1").flexisel({
@@ -352,7 +350,20 @@
 			});
 			});
 		</script>
-		<script type="text/javascript" src="js/jquery.flexisel.js"></script>
+        <script type="text/javascript">
+            $('.reply').click(function(){
+                var commentId = $(this).attr('data-id');
+                $('.data_id').attr('pvalue',commentId);
+            });
+
+            $('.submitComment').click(function(){
+                var vid       = $('.data_id').attr('vvalue');
+                var commentId = $('.data_id').attr('pvalue');
+                var content = $('#content').val();
+                $.post('/Single/sendComment',{commentId:commentId,content:content,vid:vid},function(data){
+                })
+            })
+        </script>
 		</div>
 	<?php $this->load->view('footer.html');?>
 	
