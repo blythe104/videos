@@ -7,13 +7,18 @@
  */
 class common extends CI_Controller {
 
+    /**
+     * 构造函数
+     */
     public function __construct()
     {
         parent::__construct();
         $this->config->load('multiconfig');
     }
 
-
+    /**
+     * 注册会员信息
+     */
     public function register()
     {
         $post  = $_POST;

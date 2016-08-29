@@ -6,6 +6,26 @@ class memberModel extends CI_Model{
     }
 
     /**
+     * 添加会员数据
+     * @param $data
+     * @return mixed
+     */
+    public function add($data)
+    {
+        return $this->db->insert('vmember',$data);
+    }
+
+    /**
+     * 编辑会员信息
+     * @param $data
+     * @return mixed
+     */
+    public function edit($data)
+    {
+        return $this->db->where('mid',$data['mid'])->update('vmember',$data);
+    }
+
+    /**
      * 会员登录
      * @param $username
      * @param $password
@@ -47,10 +67,7 @@ class memberModel extends CI_Model{
     public function getCommonMember($page = 1,$count = 15)
     {
         $condition =  array(
-            'select' => 'vmember.mid,vmember.musername,vmember.mmobile,vmember.mcreate_time',
-            'where' => array(
-                'mstatus' => 1
-            ),
+            'select' => 'vmember.mid,vmember.musername,vmember.mmobile,vmember.mcreate_time,vmember.mstatus',
             'join'  => array(
                 'table' => "vmemberinfo",
                 'condition' => 'vmemberinfo.muid = vmember.mid',
@@ -63,6 +80,19 @@ class memberModel extends CI_Model{
             'order' => 'vmember.mcreate_time desc'
         );
         return  $this->getMembers($condition);
+    }
+
+    /**
+     * 根据相应的条件获取内容总数
+     * @param $condition
+     * @return mixed
+     */
+    public function getCommonMemberCount()
+    {
+        $result =  $this->db->select('*')
+            ->from('vmember')
+            ->count_all_results();
+        return $result;
     }
 
     /**

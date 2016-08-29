@@ -15,6 +15,11 @@
         }
     }
 
+    /**
+     * 返回json格式(统一格式)
+     * @author  lindsey
+     * 时间：2016.08.23
+     */
     if(!function_exists('ApiSuccess'))
     {
         function ApiSuccess($data)
@@ -257,8 +262,6 @@
         }
     }
 
-
-
     // 获取$_GET信息
     if(!function_exists('getQueryString'))
     {
@@ -302,6 +305,114 @@
 
 
     /**
+     * 获取用户的IP地址
+     * @author lindsey
+     * createTime 2016.08.23
+     */
+    if(!function_exists('real_ip'))
+    {
+        function real_ip()
+        {
+            static $realip = NULL;
+
+            if ($realip !== NULL)
+            {
+                return $realip;
+            }
+
+            if (isset($_SERVER))
+            {
+                if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+                {
+                    $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+                    /* 取X-Forwarded-For中第一个非unknown的有效IP字符串 */
+                    foreach ($arr AS $ip)
+                    {
+                        $ip = trim($ip);
+
+                        if ($ip != 'unknown')
+                        {
+                            $realip = $ip;
+
+                            break;
+                        }
+                    }
+                }
+                elseif (isset($_SERVER['HTTP_CLIENT_IP']))
+                {
+                    $realip = $_SERVER['HTTP_CLIENT_IP'];
+                }
+                else
+                {
+                    if (isset($_SERVER['REMOTE_ADDR']))
+                    {
+                        $realip = $_SERVER['REMOTE_ADDR'];
+                    }
+                    else
+                    {
+                        $realip = '0.0.0.0';
+                    }
+                }
+            }
+            else
+            {
+                if (getenv('HTTP_X_FORWARDED_FOR'))
+                {
+                    $realip = getenv('HTTP_X_FORWARDED_FOR');
+                }
+                elseif (getenv('HTTP_CLIENT_IP'))
+                {
+                    $realip = getenv('HTTP_CLIENT_IP');
+                }
+                else
+                {
+                    $realip = getenv('REMOTE_ADDR');
+                }
+            }
+
+            preg_match("/[\d\.]{7,15}/", $realip, $onlineip);
+            $realip = !empty($onlineip[0]) ? $onlineip[0] : '0.0.0.0';
+
+            return $realip;
+        }
+    }
+
+    /**
+     * 把返回的数据集转换成Tree
+     * @param array $list 要转换的数据集
+     * @param string $pid parent标记字段
+     * @param string $level level标记字段
+     * @return array
+     * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+     */
+    function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
+    {
+        // 创建Tree
+        $tree = array();
+        if (is_array($list)) {
+            // 创建基于主键的数组引用
+            $refer = array();
+            foreach ($list as $key => $data) {
+                $refer[$data[$pk]] =& $list[$key];
+            }
+            foreach ($list as $key => $data) {
+                // 判断是否存在parent
+                $parentId = $data[$pid];
+                if ($root == $parentId) {
+                    $tree[] =& $list[$key];
+                } else {
+                    if (isset($refer[$parentId])) {
+                        $parent =& $refer[$parentId];
+                        $parent[$child][] =& $list[$key];
+                    }
+                }
+            }
+        }
+        return $tree;
+    }
+
+    /**
      * 辅助函数
      * @author  lindsey
      * 时间：2016.08.09
@@ -312,7 +423,7 @@
         {
             echo "<pre>";
             print_r($value);
-            die;
+            exit;
         }
     }
 
