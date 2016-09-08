@@ -67,7 +67,7 @@ class login extends CI_Controller{
 	{
         if($this->session->userdata('username'))
         {
-            $this->load->view('admin/main.html');
+            $this->load->view('admin/Main.html');
         }else{
             echo "<script>window.location.href='/admin/login';</script>";
         }

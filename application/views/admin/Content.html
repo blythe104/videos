@@ -1,14 +1,8 @@
 <link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
-<link rel="stylesheet" href="../../public/css/plugins/jQuery.ui.css" type="text/css"/>
+<link rel="stylesheet" href="../../public/css/plugins/jquery.ui.css" type="text/css"/>
 <script type="text/javascript" src="../../public/js/jquery.js"></script>
-<script type="text/javascript" src="../../public/js/plugins/jquery-ui-1.8.16.custom.min.js"></script>
-<script type="text/javascript" src="../../public/js/plugins/jquery.cookie.js"></script>
-<script type="text/javascript" src="../../public/js/plugins/jquery.uniform.min.js"></script>
-<script type="text/javascript" src="../../public/js/plugins/jquery.flot.min.js"></script>
-<script type="text/javascript" src="../../public/js/plugins/jquery.flot.resize.min.js"></script>
-<script type="text/javascript" src="../../public/js/plugins/jquery.slimscroll.js"></script>
-<script type="text/javascript" src="../../public/js/custom/general.js"></script>
-<script type="text/javascript" src="../../public/js/custom/dashboard.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../public/js/jquery.form.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../public/js/layer/layer.min.js"></script>
 <div class="pageheader notab">
     <h3 class="pagetitle">视频列表页</h3>
 </div><!--pageheader-->
@@ -54,9 +48,9 @@
                         <td align="center"><?php echo !empty($value['v_path']) ? $value['v_path'] : "无";?></td>
                         <td ><?php echo $value['summary'] ? CnTruncate(strip_tags($value['summary']),280) : "无" ;?> </td>
                         <td align="center"><?php echo $value['is_hot'] ? "是" : "否";?></td>
-                        <td align="center">0</td>
+                        <td align="center"><?php echo $value['sort'];?></td>
                         <td align="center"><a href="/admin/Content/EditContent?id=<?php echo $value['id'];?>"  class="btn btn2 btn_book"><span>编辑</span></a>
-                            <a href="javascript:void(0);" id="delcontent" data-href="/admin/Content/DelContent?id=<?php echo $value['id'];?>" class="btn btn2 btn_trash"><span>删除</span></a></td>
+                            <a href="javaScript:void(0);" data-href="/admin/Content/DelContent?id=<?php echo $value['id'];?>" class="btn btn2 btn_trash delcontent"><span>删除</span></a></td>
                     </tr>
                 <?php endforeach; endif;?>
             </tbody>
@@ -66,13 +60,14 @@
 <?php echo $pagination;?>
 <div class="clearfix" style="height: 100px;"> </div>
 <script>
-      $('#delcontent').click(function(){
+      $('.delcontent').click(function(){
           var url = $(this).attr('data-href');
           var _this = $(this);
           $.post(url,{},function(msg){
+              var msg = eval("("+msg+")");
               if(msg.status)
               {
-                  alert(msg.msg);
+                  layer.alert(msg.msg);
                   window.setTimeout(function(){
                       window.location.href="/admin/Content/index";
                   },5000);

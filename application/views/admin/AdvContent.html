@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
+<link rel="stylesheet" href="../../public/css/plugins/jQuery.ui.css" type="text/css"/>
+<script type="text/javascript" src="../../public/js/jquery.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.cookie.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.uniform.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.flot.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="../../public/js/plugins/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="../../public/js/custom/general.js"></script>
+<script type="text/javascript" src="../../public/js/custom/dashboard.js"></script>
+<div class="pageheader notab">
+    <h3 class="pagetitle">视频列表页</h3>
+</div><!--pageheader-->
+<div id="contentwrapper" class="contentwrapper">
+        <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="dyntable2">
+            <colgroup>
+                <col class="con0" style="width: 4%" />
+                <col class="con1" />
+                <col class="con0" />
+                <col class="con1" />
+                <col class="con0" />
+            </colgroup>
+            <thead>
+                <tr>
+                  <th class="head0 nosort" width="3"><input type="checkbox" /></th>
+                    <th class="head0" width="10%">广告名称</th>
+                    <th class="head0" width="10%">封面图片</th>
+                    <th class="head0" width="10%">图片位置</th>
+                    <th class="head1" width="5%">是否热推</th>
+                    <th class="head0" width="5%">排序ID</th>
+                    <th class="head0" width="15%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(!empty($contentlists)):
+                    foreach($contentlists as $key => $value):
+                ?>
+                    <tr class="gradeX">
+                        <td align="center">
+                          <span class="aligncenter">
+                            <input type="checkbox" />
+                          </span>
+                        </td>
+                        <td ><?php echo $value['title'] ? $value['title'] : "无";?></td>
+                        <td align="center">
+                            <?php if($value['cover_path']):?>
+                            <img class="blogviewthumb" width="80" height="80" src="/<?php echo $value['cover_path'];?>"/>
+                            <?php else:?>
+                            无
+                            <?php endif;?>
+                        </td>
+                        <td align="center"><?php echo $value['whereis'] == 1  ? "小图片" : "大图片";?></td>
+                        <td align="center"><?php echo $value['is_hot'] ? "是" : "否";?></td>
+                        <td align="center"><?php echo $value['sort'];?></td>
+                        <td align="center"><a href="/admin/Content/EditAdv?id=<?php echo $value['id'];?>"  class="btn btn2 btn_book"><span>编辑</span></a>
+                            <a href="javascript:void(0);"  data-href="/admin/Content/DelContent?id=<?php echo $value['id'];?>" class="btn btn2 btn_trash delcontent"><span>删除</span></a></td>
+                    </tr>
+                <?php endforeach; endif;?>
+            </tbody>
+        </table>
+</div><!--contentwrapper-->
+<div class="clearfix"> </div>
+<?php echo $pagination;?>
+<div class="clearfix" style="height: 100px;"> </div>
+<script>
+      $('.delcontent').click(function(){
+          var url = $(this).attr('data-href');
+          var _this = $(this);
+          $.post(url,{},function(msg){
+              var msg = eval("("+msg+")");
+              if(msg.status)
+              {
+                  alert(msg.msg);
+                  window.setTimeout(function(){
+                      window.location.href="/admin/Content/index";
+                  },5000);
+              }
+          })
+      })
+</script>
+        

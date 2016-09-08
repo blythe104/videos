@@ -1,15 +1,16 @@
 <link rel="stylesheet" href="../../public/css/style.default.css" type="text/css" />
-<link rel="stylesheet" href="../../public/js/cropper/cropper-master/dist/cropper.css">
-<script type="text/javascript" charset="utf-8" src="../../public/js/custom/elements.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../public/Ueditor/ueditor.config.js"></script> 
+<link rel="stylesheet" href="../../public/cropper/dist/cropper.css">
+<script type="text/javascript" charset="utf-8" src="../../public/Ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../../public/Ueditor/editor_api.js"> </script>
 <script type="text/javascript" charset="utf-8" src="../../public/js/jquery.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../public/js/jquery.form.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../public/js/layer/layer.min.js"></script>
 <div class="pageheader notab">
     <h1 class="pagetitle">添加内容信息</h1>
     <span class="pagedesc"></span>
 </div><!--pageheader-->
 <div id="contentwrapper" class="contentwrapper elements">
-    <form class="stdform stdform2" >
+    <form class="stdform stdform2" method="post">
         <p>
             <label>视频名称 <span class="star">*</span></label>
             <span class="field">
@@ -32,7 +33,7 @@
         <p class="flatmode">
             <label>视频源<span class="star">*</span></label>
             <span class="field">
-                <iframe src="/api/common/uploadVideoHtml" scrolling="no" width="500" height="40" id="uploadvideosHtml"></iframe>
+                <iframe src="/api/Common/uploadVideoHtml" scrolling="no" width="500" height="40" id="uploadvideosHtml"></iframe>
                 <input type="text" name="v_path" class="smallinput"  value="" style="display: none" readonly/>
             </span>
         </p>
@@ -59,7 +60,7 @@
             <label>显示位置</label>
             <span class="field">
                 <?php foreach($Whereis as $key => $vlaue):?>
-                    <input type="radio" name="whereis" style="margin-left: 10px;"  value="<?php echo $key;?>"/> <?php echo $vlaue;?>
+                    <input type="radio" name="whereis" style="margin-left: 10px;"  value="<?php echo $key;?>" <?php echo $key == 3 ? "checked" : "";?>/> <?php echo $vlaue;?>
                 <?php endforeach;?>
             </span><!--field-->
         </p>
@@ -72,8 +73,8 @@
         <p>
             <label>是否热推</label>
             <span class="field">
-                <input type="radio" name="is_hot" style="margin-left: 20px;"  value="0" checked/> 否
-                <input type="radio" name="is_hot" style="margin-left: 10px;"  value="1"/> 是
+                <input type="radio" name="is_hot" style="margin-left: 10px;"  value="1" checked/> 是
+                <input type="radio" name="is_hot" style="margin-left: 20px;"  value="0"/> 否
             </span><!--field-->
         </p>
         <!--<p>
@@ -83,12 +84,19 @@
             </span>
         </p>-->
         <p>
-            <label>排序ID</label>
+        <label>排序ID</label>
             <span class="field">
                 <input  type="text"  class="width50"  name="sort" value="0"/>
                 <span class="star">（数字越大越靠前）</span>
             </span>
 
+        </p>
+        <p>
+            <label>外部链接</label>
+            <span class="field">
+                <input  type="text"  class="smallinput"  name="vlink" />
+                <span class="star"></span>
+            </span>
         </p>
         <p>
             <label></label>
@@ -233,53 +241,17 @@
         }
     }
 
-	/**   添加视频信息数据，验证数据是否正确 **/
-    $("form").submit(function(){
-        //视频名称
-        var title  = $('input[name="title"]').val();
-        if(title == "")
-        {
-            alert('视频名称不能为空');
+    /**   添加视频信息数据，验证数据是否正确 **/
+    $("form").ajaxForm(function(data){
+        var data = eval("("+data+")");
+        if(data.status){
+            layer.alert(data.msg);
+            window.setTimeout(function(){
+                window.location.href="/admin/content/Addcontent";
+            },500);
+        }else{
+            layer.alert(data.msg);
             return false;
         }
-
-        //视频路径信息
-        var videos  = $('input[name="v_path"]').val();
-        if(videos == "")
-        {
-            alert('请上传视频信息');
-            return false;
-        }
-
-        //视频封面图片信息
-        var images = $('input[name="cover_path"]').val();
-        if(images == "")
-        {
-            alert('请上传图片！');
-            return false;
-        }
-
-        //视频简介
-        var summary =  $('textarea[name="summary"]').val();
-        if(summary == "")
-        {
-            alert('展示你才艺的时候到了，多写一点咯！');
-            return false;
-        }
-
-        //提交信息
-         $.post("/admin/content/addcontent",$('form').serialize(),function(msg){
-             console.log(msg);
-             if(msg.status){
-                 alert(msg.msg);
-                 window.setTimeout(function(){
-                     window.location.href="/admin/content/Addcontent";
-                 },500);
-             }else{
-                 alert(msg.msg);
-                 alert('走错地方了');
-                 return false;
-             }
-         });
     });
 </script>

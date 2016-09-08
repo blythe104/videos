@@ -3,14 +3,14 @@
         <div class="top-header span_top">
             <div class="logo">
                 <a href="/"><img src="public/images/logo.png" alt="" /></a>
-                <p>Movie Theater</p>
+                <p>JUST YOU LIKE</p>
             </div>
-            <div class="search v-search">
+           <!-- <div class="search v-search">
                 <form>
                     <input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}"/>
                     <input type="submit" value="">
                 </form>
-            </div>
+            </div>-->
             <div class="clearfix"></div>
         </div>
         <div class="right-content">
@@ -44,13 +44,13 @@
                 <?php foreach($contentlists as $key => $value):?>
                     <div class="content-grid <?php if(($key+1)%4 == 0) echo "last-grid";?>">
                         <a class="play-icon popup-with-zoom-anim" href="#small-dialog<?php echo $key+5;?>"><img src="<?php echo $value['cover_path'];?>" title="allbum-name" /></a>
-                        <h3><?php echo $value['title'];?></h3>
+                        <h3><?php echo $value['title'];?>--<?php echo $value['actors'];?></h3>
                         <ul>
                             <li><a class="support" href="javascript:void(0);" data-id="<?php echo $value['id'];?>"><img src="public/images/likes.png" title="获赞：<?php echo $value['support_count'] ? $value['support_count'].'次' : '0次';  ?>  "  /></a></li>
                             <li><a href="javascript:void(0);"><img src="public/images/views.png" title="聆听：<?php echo $value['views_count'] ? $value['views_count'].'次' : '0次';  ?>  " /></a></li>
                             <li><a href="<?php echo $value['v_path'];?>" download="<?php echo $value['title'];?>" class="download" data-id="<?php echo $value['id'];?>"><img src="public/images/link.png" title="下载：<?php echo $value['download_count'] ? $value['download_count'].'次' : '0次';  ?>  " /></a></li>
                         </ul>
-                        <a class="button play-icon popup-with-zoom-anim" href="#small-dialog<?php echo $key+5;?>">Watch now</a>
+                        <a class="button play-icon popup-with-zoom-anim" href="#small-dialog<?php echo $key+5;?>">Listen now</a>
                         <div id="small-dialog<?php echo $key+5;?>" class="mfp-hide">
                             <iframe  src="/play?id=<?php echo $value['id'];?>" frameborder="0" allowfullscreen width="100%" height="100%" scrolling="no"></iframe>
                         </div>
@@ -68,15 +68,19 @@
         $('.download').click(function(){
             var id = $(this).attr('data-id');
             $.post('/videos/downloadVideo',{id:id},function(){
-
             });
         });
 
         $('.support').click(function(){
             var id = $(this).attr('data-id');
             var uid ="<?php echo $this->session->userdata('member')['mid'];?>";
-            $.post('/videos/supportCount',{id:id,uid:uid},function(){
-
+            $.post('/videos/supportCount',{id:id,uid:uid},function(data){
+               var data = eval("("+data+")");
+                if(data.status)
+                {
+                    alert(data.msg);
+                    return false;
+                }
             });
         });
     </script>

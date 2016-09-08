@@ -1,12 +1,14 @@
 <?php 
 class contentModel extends CI_Model{
 
-    //普通数据
-    const COMMON_VIDEO = 1;
     //小广告数据
-    const LITTLE_ADS   = 2;
+    const LITTLE_ADS   = 1;
     //大广告数据
-    const BIG_ADS      = 3;
+    const BIG_ADS      = 2;
+    //普通数据
+    const COMMON_MUSIC = 3;
+    //普通数据
+    const COMMON_VIDEO = 4;
 
     /**
      * 构造函数信息
@@ -24,12 +26,13 @@ class contentModel extends CI_Model{
      * @param string $order
      * @return array
      */
-    public function getcontents($condition = array(),$page = 1,$count = 16,$order = "sort")
+    public function getcontents($condition,$page = 1,$count = 16,$in_condition = array())
     {
         $mulitCondition  = array(
             'select' => 'vcontent.*,support_count,comment_count,
                          views_count,repost_count,download_count',
-            'where' => $condition,
+            'where'    => $condition,
+            'where_in' => $in_condition,
             'join'  => array(
                 'table' => 'vdetail',
                 'condition' => 'vdetail.vid = vcontent.id',
@@ -39,7 +42,7 @@ class contentModel extends CI_Model{
                 'limit' => $count,
                 'offset' =>($page-1)*$count
             ),
-            'order' => "$order desc",
+            'order' => "sort desc",
         );
 
         $this->parseParameter($mulitCondition);
@@ -63,30 +66,64 @@ class contentModel extends CI_Model{
      * 获取小广告数据
      * @return array
      */
-    public function getLittle()
+    public function getLittle($page,$count)
     {
-        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::LITTLE_ADS);
-        return  $this->getcontents($condition);
+        $condition = array('is_del' => 0, 'whereis' => self::LITTLE_ADS);
+        return  $this->getcontents($condition,$page,$count);
     }
 
     /**
-     * 获取小广告数据
+     * 获取大广告数据
      * @return array
      */
-    public function getBig()
+    public function getBig($page,$count)
     {
-        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::BIG_ADS);
-        return  $this->getcontents($condition);
+        $condition = array('is_del' => 0, 'whereis' => self::BIG_ADS);
+        return  $this->getcontents($condition,$page,$count);
     }
 
     /**
-     * 获取小广告数据
+     * 获取音乐数据
      * @return array
      */
-    public function getCommon($page,$pagecount)
+    public function getMusic($page,$count)
     {
-        $condition = array('is_hot' => 0, 'is_del' => 0, 'whereis' => self::COMMON_VIDEO);
-        return  $this->getcontents($condition,$page,$pagecount);
+        $condition = array('is_del' => 0, 'whereis' => self::COMMON_MUSIC);
+        return  $this->getcontents($condition,$page,$count);
+    }
+
+    /**
+     * 获取视频数据
+     * @return array
+     */
+    public function getVideos($page,$count)
+    {
+        $condition = array('is_del' => 0, 'whereis' => self::COMMON_VIDEO);
+        return  $this->getcontents($condition,$page,$count);
+    }
+
+    /**
+     * 获取音乐和视频的内容
+     * @return array
+     */
+    public function getContentsMV($page,$pagecount)
+    {
+        $condition = array('is_del' => 0);
+        $in_condition = array('field' => 'whereis','value' => array(3,4));
+        return $this->getcontents($condition,$page,$pagecount,$in_condition);
+    }
+
+    /**
+     * 获取大小广告数据
+     * @param $page
+     * @param $pagecount
+     * @return array
+     */
+    public function getContentBL($page,$pagecount)
+    {
+        $condition    = array('is_del' => 0);
+        $in_condition = array('field' => 'whereis','value' => array(1,2));
+        return $this->getcontents($condition,$page,$pagecount,$in_condition);
     }
 
     /**
@@ -94,12 +131,11 @@ class contentModel extends CI_Model{
      * @param $condition
      * @return mixed
      */
-    public function getContentsCount($condition)
+    public function getContentsCount($condition,$in_condition = array())
     {
-        if($condition)
-        {
-            $this->db->where($condition);
-        }
+        $Newcondition['where']    = $condition;
+        $Newcondition['where_in'] = $in_condition;
+        $this->parseParameter($Newcondition);
         $result =  $this->db->select('*')
             ->from('vcontent')
             ->count_all_results();
@@ -107,33 +143,67 @@ class contentModel extends CI_Model{
     }
 
     /**
-     * 获取小广告数据
+     * 获取小广告总数据
      * @return array
      */
     public function getLittleCount()
     {
-        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::LITTLE_ADS);
+        $condition = array('is_del' => 0, 'whereis' => self::LITTLE_ADS);
         return  $this->getContentsCount($condition);
     }
 
     /**
-     * 获取小广告数据
+     * 获取大广告总数据
      * @return array
      */
     public function getBigCount()
     {
-        $condition = array('is_hot' => 1, 'is_del' => 0, 'whereis' => self::BIG_ADS);
+        $condition = array('is_del' => 0, 'whereis' => self::BIG_ADS);
         return  $this->getContentsCount($condition);
     }
 
     /**
-     * 获取小广告数据
-     * @return array
+     * 根据相应的条件获取音乐内容总数
+     * @param $condition
+     * @return mixed
      */
-    public function getCommonCount()
+    public function getMusicCount()
     {
-        $condition = array('is_hot' => 0, 'is_del' => 0, 'whereis' => self::COMMON_VIDEO);
-        return  $this->getContentsCount($condition);
+        $condition = array('is_del' => 0, 'whereis' => self::COMMON_MUSIC);
+        return $this->getContentsCount($condition);
+    }
+
+    /**
+     * 根据相应的条件获取电影内容总数
+     * @param $condition
+     * @return mixed
+     */
+    public function getVideosCount()
+    {
+        $condition = array('is_del' => 0, 'whereis' => self::COMMON_VIDEO);
+        return $this->getContentsCount($condition);
+    }
+
+    /**
+     * 获取音乐和视频的总数
+     * @return mixed
+     */
+    public function getMVCount()
+    {
+        $condition = array('is_del' => 0);
+        $in_condition = array('field' => 'whereis','value' => array(3,4));
+        return $this->getContentsCount($condition,$in_condition);
+    }
+
+    /**
+     * 获取大小广告的总数
+     * @return mixed
+     */
+    public function getBLCount()
+    {
+        $condition = array('is_del' => 0);
+        $in_condition = array('field' => 'whereis','value' => array(1,2));
+        return $this->getContentsCount($condition,$in_condition);
     }
 
     /**
@@ -171,6 +241,13 @@ class contentModel extends CI_Model{
             if($key == "where")
             {
                 $this->db->where($value);
+            }
+            if($key == "where_in")
+            {
+                if(!empty($value))
+                {
+                    $this->db->where_in($value['field'],$value['value']);
+                }
             }
             if($key == "order")
             {

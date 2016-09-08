@@ -27,4 +27,14 @@ class Admin extends CI_Controller{
 	{
 		echo "haha";
 	}
+
+    /**
+     * @author lindsey
+     * 编辑用户信息
+     * createTime 2016.09.07
+     */
+    public function editUserinfo()
+    {
+        $this->load->view('admin/EditUserinfo.html');
+    }
 }

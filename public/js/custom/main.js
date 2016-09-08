@@ -33,11 +33,8 @@ $(function(){
 	
 	$('.show').click(function(){
 		$url = $(this).attr('data_url');
-	       /* ifrim_html = "<iframe src=\""+$url+"\" class='centeriframe'   frameborder=\"0\"  marginheight=\"0\""
-+" marginwidth=\"0\"    >";
-		$('.centercontent').html(ifrim_html);*/
-		$('.centeriframe').attr('src',$url);	
-        })	
+		$('.centeriframe').attr('src',$url);
+    })
 	///// SHOW/HIDE NOTIFICATION /////
 	
 	$('.notification a').click(function(){
@@ -60,8 +57,6 @@ $(function(){
 	
 	
 	///// SHOW/HIDE BOTH NOTIFICATION & USERINFO WHEN CLICKED OUTSIDE OF THIS ELEMENT /////
-
-	
 	$('.vernav > ul li a, .vernav2 > ul li a').each(function(){
 		var url = $(this).attr('href');
 		$(this).click(function(){
@@ -109,7 +104,6 @@ $(function(){
 	
 	
 	///// HORIZONTAL NAVIGATION (AJAX/INLINE DATA) /////	
-	
 	$('.hornav a').click(function(){
 		
 		//this is only applicable when window size below 450px
@@ -136,40 +130,7 @@ $(function(){
 		return false;
 	});
 	
-	
-	///// SEARCH BOX WITH AUTOCOMPLETE /////
-	
-	var availableTags = [
-			"ActionScript",
-			"AppleScript",
-			"Asp",
-			"BASIC",
-			"C",
-			"C++",
-			"Clojure",
-			"COBOL",
-			"ColdFusion",
-			"Erlang",
-			"Fortran",
-			"Groovy",
-			"Haskell",
-			"Java",
-			"JavaScript",
-			"Lisp",
-			"Perl",
-			"PHP",
-			"Python",
-			"Ruby",
-			"Scala",
-			"Scheme"
-		];
-	$('#keyword').autocomplete({
-		source: availableTags
-	});
-	
-	
 	///// SEARCH BOX ON FOCUS /////
-	
 	$('#keyword').bind('focusin focusout', function(e){
 		var t = $(this);
 		if(e.type == 'focusin' && t.val() == 'Enter keyword(s)') {

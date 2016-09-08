@@ -3,14 +3,14 @@
 			<div class="top-header span_top">
 				<div class="logo">
 					<a href="index.html"><img src="public/images/logo.png" alt="" /></a>
-					<p>Movie Theater</p>
+                    <p>JUST YOU LIKE</p>
 				</div>
-				<div class="search v-search">
+				<!--<div class="search v-search">
 					<form>
 						<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}"/>
 						<input type="submit" value="">
 					</form>
-				</div>
+				</div>-->
 				<div class="clearfix"></div>
 			</div>
 			<div class="reviews-section">
@@ -69,10 +69,10 @@
 									</div>
 									<div class="clearfix"></div>
 								</div>
-								<p class="info">CAST:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['actors'];?></p>
-								<p class="info">DIRECTION: &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['director'];?></p>
-								<p class="info">GENRE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crime</p>
-								<p class="info">UPLOAD DATE:&nbsp;&nbsp;&nbsp; &nbsp;<?php echo date("Y-m-d H:i:s",$value['create_time']);?> </p>
+                                <p class="info">演员:&nbsp; &nbsp;&nbsp;&nbsp;<?php echo $value['actors'];?></p>
+                                <p class="info">导演: &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['director'];?></p>
+                                <p class="info">适合年龄级别:&nbsp;&nbsp;&nbsp;<?php echo $value['proper_age'];?> </p>
+                                <p class="info">上传时间:&nbsp;&nbsp;&nbsp; &nbsp;<?php echo date("Y-m-d H:i:s",$value['create_time']);?> </p>
 							</div>
 							<div class="clearfix"></div>
 						</div>
@@ -360,7 +360,17 @@
                 var vid       = $('.data_id').attr('vvalue');
                 var commentId = $('.data_id').attr('pvalue');
                 var content = $('#content').val();
+				if(content == "Subject" || content == "" ){
+					alert('请填写评论信息');
+					return false;
+				}
                 $.post('/Single/sendComment',{commentId:commentId,content:content,vid:vid},function(data){
+                    var data = eval("("+data+")");
+                    if(data.status == 1)
+                    {
+                        alert(data.msg);
+                        window.location.href="single?id="+vid;
+                    }
                 })
             })
         </script>

@@ -1,17 +1,16 @@
-<?php $this->load->view('header.html');?>
 		<div class="main">
 		<div class="review-content">
 			<div class="top-header span_top">
 				<div class="logo">
 					<a href="/"><img src="public/images/logo.png" alt="" /></a>
-					<p>Movie Theater</p>
+                    <p>JUST YOU LIKE</p>
 				</div>
-				<div class="search v-search">
+				<!--<div class="search v-search">
 					<form>
 						<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}"/>
 						<input type="submit" value="">
 					</form>
-				</div>
+				</div>-->
 				<div class="clearfix"></div>
 			</div>
 			<div class="reviews-section">
@@ -24,8 +23,8 @@
 							</div>
 							<div class="review-info">
 								<a class="span" href="single?id=<?php echo $value['id'];?>"><?php echo $value['title'];?>  <i>Just you like</i></a>
-								<p class="dirctr"><a href="">Reagan Gavin Rasquinha, </a>TNN, Mar 12, 2015, 12.47PM IST</p>								
-								<p class="ratingview">Critic's Rating:</p>
+								<p class="dirctr"><a href=""><?php echo $value['director'];?> </a>TNN, Mar 12, 2015, 12.47PM IST</p>
+								<p class="ratingview">专家评分:</p>
 								<div class="rating">
 									<span>☆</span>
 									<span>☆</span>
@@ -37,7 +36,7 @@
 								&nbsp;3.5/5  
 								</p>
 								<div class="clearfix"></div>
-								<p class="ratingview c-rating">Avg Readers' Rating:</p>
+								<p class="ratingview c-rating">读者平均分:</p>
 								<div class="rating c-rating">
 									<span>☆</span>
 									<span>☆</span>
@@ -63,17 +62,17 @@
 									  </select>
 									</div>
 									<div class="rtm text-center">
-										<a href="#">REVIEW THIS MOVIE</a>
+										<a href="single?id=<?php echo $value['id'];?>">评价电影</a>
 									</div>
 									<div class="wt text-center">
-										<a href="#">WATCH THIS TRAILER</a>
+										<a href="<?php echo $value['vlink'];?>">观看此电影</a>
 									</div>
 									<div class="clearfix"></div>
 								</div>
-								<p class="info">CAST:&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $value['actors'];?></p>
-								<p class="info">DIRECTION: &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['director'];?></p>
-                                <p class="info">GENRE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Crime</p>
-                                <p class="info">UPLOAD DATE:&nbsp;&nbsp;&nbsp; &nbsp;<?php echo date("Y-m-d H:i:s",$value['create_time']);?> </p>
+								<p class="info">演员:&nbsp; &nbsp;&nbsp;&nbsp;<?php echo $value['actors'];?></p>
+								<p class="info">导演: &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $value['director'];?></p>
+                                <p class="info">适合年龄级别:&nbsp;&nbsp;&nbsp;<?php echo $value['proper_age'];?> </p>
+                                <p class="info">上传时间:&nbsp;&nbsp;&nbsp; &nbsp;<?php echo date("Y-m-d H:i:s",$value['create_time']);?> </p>
 							</div>
 							<div class="clearfix"></div>
 						</div>

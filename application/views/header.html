@@ -1,9 +1,3 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,10 +22,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="full">
 		<div class="menu">
 			<ul>
-				<li><a  href="/" ><i class="home"></i></a></li>
-				<li><a href="/videos" ><div class="video"><i class="videos"></i><i class="videos1"></i></div></a></li>
-				<li><a href="/reviews" ><div class="cat"><i class="watching"></i><i class="watching1"></i></div></a></li>
+				<li><a  href="/" class="<?php if($this->uri->segment(1) == '') echo 'active';?>"><i class="home"></i></a></li>
+				<li><a href="/videos" class="<?php if($this->uri->segment(1) == 'videos') echo 'active';?>"><div class="video"><i class="videos"></i><i class="videos1"></i></div></a></li>
+				<li><a href="/reviews" class="<?php if($this->uri->segment(1) == 'reviews' || $this->uri->segment(1) == 'single') echo 'active';?>" ><div class="cat"><i class="watching"></i><i class="watching1"></i></div></a></li>
 				<!--<li><a href="public/404.html" ><div class="bk"><i class="booking"></i><i class="booking1"></i></div></a></li>-->
-				<li><a href="/contact" ><div class="cnt"><i class="contact"></i><i class="contact1"></i></div></a></li>
+				<li><a href="/contact" class="<?php if($this->uri->segment(1) == 'contact') echo 'active';?>"><div class="cnt"><i class="contact"></i><i class="contact1"></i></div></a></li>
 			</ul>
 		</div>

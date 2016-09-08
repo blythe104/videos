@@ -29,7 +29,7 @@
                     <div class="thumb"><img alt="" src="../public/images/thumbs/avatar1.png" /></div>
                     <div class="userlogged">
                         <h4></h4>
-                        <a href="images.html">Not <span></span>?</a>
+                        <a href="Images.html">Not <span></span>?</a>
                     </div>
                 </div><!--loginf-->
             </div><!--nopassword-->
@@ -73,6 +73,7 @@
 	var username = $('#username').val();
 	var password = $('#password').val();
 	$.post('Login/login',{username:username,password:password},function(data){
+        var data = eval("("+data+")");
 		if(data.status)
 		{
 			window.location.href = data.url;
