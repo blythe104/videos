@@ -38,9 +38,9 @@ class home extends CI_Controller {
 	public function index()
 	{
         //获取小广告信息
-        $content['littleads'] = $this->contentmodel->getLittle();
+        $content['littleads'] = $this->contentmodel->getLittle(1,4);
         //获取大广告
-        $content['bigads'] = $this->contentmodel->getBig();
+        $content['bigads'] = $this->contentmodel->getBig(1,4);
 		$this->view('home.html',$content);
 	}
 

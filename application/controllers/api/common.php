@@ -14,6 +14,11 @@ class common extends CI_Controller {
     {
         parent::__construct();
         $this->config->load('multiconfig');
+        //导入类文件
+        $this->load->library('PictureCut/UploadFile');
+        $this->load->library('PictureCut/JcropImage');
+        //获取配置信息
+        $this->config->load('Upfile');
     }
 
 
@@ -37,7 +42,7 @@ class common extends CI_Controller {
      */
     public function uploadFile()
     {
-        $this->load->view('admin/images.html');
+        $this->load->view('admin/Images.html');
     }
 
     /**
@@ -47,7 +52,7 @@ class common extends CI_Controller {
      */
     public function uploadVideoHtml()
     {
-        $this->load->view('admin/videos.html');
+        $this->load->view('admin/Videos.html');
     }
 
     /**
@@ -62,12 +67,6 @@ class common extends CI_Controller {
             exit;
         }
 
-        //导入类文件
-        $this->load->library('PictureCut/UploadFile');
-        $this->load->library('PictureCut/JcropImage');
-
-        //获取配置信息
-        $this->config->load('Upfile');
         $UploadConfig = $this->config->item('upload');
 
         $maxSize   = $UploadConfig['max_size']; //2M 设置附件上传大小
@@ -81,8 +80,6 @@ class common extends CI_Controller {
         $upload->allowExts  = $allowExts;
         $upload->savePath   = $file_save; // 设置附件
         $upload->saveRule   = time() . sprintf('%04s', mt_rand(0, 1000));
-
-        $res_str = '';
         if (!$upload->upload()) {// 上传错误提示错误信息
             $errormsg = $upload->getErrorMsg();
             $res_str = '0|'.$errormsg;
@@ -106,6 +103,93 @@ class common extends CI_Controller {
         echo "<script> parent.cutback('".$file."');</script>";
     }
 
+
+    /**
+     * 上传小广告
+     */
+    public function uploadLittleAdv()
+    {
+        $UploadConfig = $this->config->item('uploadLAdv');
+        $thumbWidth   = $UploadConfig['thumbMaxWidth'];
+        $thumbHeight  = $UploadConfig['thumbMaxHeight'];
+        $filename = $this->makeThumb($thumbWidth,$thumbHeight);
+        echo "<script> parent.cutback('".$filename."');</script>";
+    }
+
+    /**
+     * 上传大广告
+     */
+    public function uploadBigAdv()
+    {
+        $UploadConfig = $this->config->item('uploadLAdv');
+        $thumbWidth   = $UploadConfig['thumbMaxWidth'];
+        $thumbHeight  = $UploadConfig['thumbMaxHeight'];
+        $filename = $this->makeThumb($thumbWidth,$thumbHeight);
+        echo "<script> parent.cutback('".$filename."');</script>";
+    }
+
+    /**
+     * 上传音乐图
+     */
+    public function uploadMusicImg()
+    {
+        $UploadConfig = $this->config->item('uploadLAdv');
+        $thumbWidth   = $UploadConfig['thumbMaxWidth'];
+        $thumbHeight  = $UploadConfig['thumbMaxHeight'];
+        $filename = $this->makeThumb($thumbWidth,$thumbHeight);
+        echo "<script> parent.cutback('".$filename."');</script>";
+    }
+
+    /**
+     * 上传电影图片
+     */
+    public function uploadVideoImg()
+    {
+        $UploadConfig = $this->config->item('uploadLAdv');
+        $thumbWidth   = $UploadConfig['thumbMaxWidth'];
+        $thumbHeight  = $UploadConfig['thumbMaxHeight'];
+        $filename = $this->makeThumb($thumbWidth,$thumbHeight);
+        echo "<script> parent.cutback('".$filename."');</script>";
+    }
+
+    /**
+     * 缩略图通用方法
+     * @param $thumbWidth
+     * @param $thumbHeight
+     */
+    public function makeThumb($thumbWidth,$thumbHeight)
+    {
+        ob_end_clean();
+        if(empty($_FILES)){
+            echo "<script> alert('0|文件不存在或超过最大上传限制（8M）');</script>";
+            exit;
+        }
+        $UploadConfig = $this->config->item('upload');
+
+        $maxSize   = $UploadConfig['max_size']; //2M 设置附件上传大小
+        $allowExts = $UploadConfig['allowed_types']; // 设置附件上传类型
+        $file_save = $UploadConfig['upload_path'].date('Y-m-d')."/";
+
+        if(!is_dir($file_save)){
+            mkdir($file_save, 0777, true);
+        }
+        $upload = new \UploadFile(); // 实例化上传类
+        $upload->maxSize    = $maxSize;
+        $upload->allowExts  = $allowExts;
+        $upload->savePath   = $file_save; // 设置附件
+        $upload->saveRule   = time() . sprintf('%04s', mt_rand(0, 1000));
+        $upload->thumbMaxWidth = $thumbWidth;
+        $upload->thumbMaxHeight = $thumbHeight;
+        if (!$upload->upload()) {// 上传错误提示错误信息
+            $errormsg = $upload->getErrorMsg();
+            $res_str = '0|'.$errormsg;
+            echo "<script> alert('".$res_str."');</script>";
+        } else {// 上传成功 获取上传文件信息
+            $info = $upload->getUploadFileInfo();
+            return $info[0]['savename'];
+        }
+    }
+
     /**
      * 上传视频文件
      * @author lindsey
@@ -115,7 +199,7 @@ class common extends CI_Controller {
     {
         error_reporting(0);
         if(empty($_FILES)){
-            echo "<script> alert('0|文件不存在或超过最大上传限制（2G）');</script>";
+            echo "<script> alert('0|文件不存在或超过最大上传限制（8M）');</script>";
             exit;
         }
 

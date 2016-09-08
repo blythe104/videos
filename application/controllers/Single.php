@@ -71,7 +71,6 @@ class Single extends CI_Controller {
         $data['create_time'] = time();
         if($this->detailmodel->addComment($data))
         {
-            p($this->db->last_query());
             $data = array(
                 'msg' => "评论成功！",
                 'content' => $content

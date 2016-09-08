@@ -46,8 +46,8 @@ class Videos extends CI_Controller {
         $count = isset($_GET['row'])  ? $_GET['row']  :8 ;
         $filters['page']  = $page;
         $filters['rows']  = $count;
-        $lists          =  $this->contentmodel->getCommon($page,$count);
-        $rows           =  $this->contentmodel->getCommonCount();
+        $lists          =  $this->contentmodel->getMusic($page,$count);
+        $rows           =  $this->contentmodel->getMusicCount();
         $pagination     =  getPagination($filters,$rows,strtolower(__class__));
 		$this->view('videos.html',array('contentlists'=>$lists,'pagination' => $pagination));
     }
@@ -113,7 +113,7 @@ class Videos extends CI_Controller {
                 if($this->detailmodel->edit($data) && $this->updateSupportLog($uid,$ip,$id))
                 {
                     $data   = array(
-                        'msg' => '',
+                        'msg' => '点赞成功',
                         'content' => array()
                     );
                     ApiSuccess($data);
@@ -127,7 +127,7 @@ class Videos extends CI_Controller {
                 if($this->detailmodel->add($data) && $this->updateSupportLog($uid,$ip,$id))
                 {
                     $data   = array(
-                        'msg' => '',
+                        'msg' => '点赞成功！',
                         'content' => array()
                     );
                     ApiSuccess($data);

@@ -31,17 +31,12 @@ class reviews extends CI_Controller {
 	}
     public function index()
     {
-        $condition = array(
-            'is_hot' => 1,
-            'is_del' => 0,
-            'whereis !=' => 1
-        );
         $page  = isset($_GET['page']) ? $_GET['page'] :1 ;
         $count = isset($_GET['row'])  ? $_GET['row']  :4 ;
         $filters['page']  = $page;
         $filters['rows']  = $count;
-        $lists          =  $this->contentmodel->getcontents($condition,$page,$count);
-        $rows           =  $this->contentmodel->getContentsCount($condition);
+        $lists          =  $this->contentmodel->getVideos($page,$count);
+        $rows           =  $this->contentmodel->getVideosCount();
         $pagination     =  getPagination($filters,$rows,strtolower(__class__));
 
         $condition['whereis'] = 2;
