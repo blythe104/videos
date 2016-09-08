@@ -4,14 +4,13 @@
      * @author lindsey
      *  时间：2016.08.09
      */
-    if(!function_exists('json_return')) {
-        function json_return($data = array(), $header = true)
-        {
-            if ($header) {
-                header('content-type:application/json;charset=utf8');
+    if (!function_exists('json_return')) {
 
-                exit(json_encode($data));
+        function json_return($data = array(), $header=true) {
+            if($header){
+                header('content-type:application/json;charset=utf8');
             }
+            exit(json_encode($data));
         }
     }
 
